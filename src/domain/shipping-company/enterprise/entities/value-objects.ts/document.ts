@@ -14,7 +14,7 @@ export class Document {
   }
 
   // Method to validate the CPF
-  validateCpf(): boolean {
+  public validateCpf(): boolean {
     const cleanCpf = this.value.replace(/\D/g, '')
 
     // Check if the CPF has 11 digits

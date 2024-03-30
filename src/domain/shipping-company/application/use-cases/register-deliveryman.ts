@@ -9,7 +9,7 @@ import { DeliverymanAlreadyExistsError } from './errors/deliveryman-already-exis
 
 interface RegisterDeliverymanUseCaseRequest {
   name: string
-  document: Document
+  document: string
   password: string
   address: Address
 }
@@ -36,12 +36,12 @@ export class RegisterDeliverymanUseCase {
     const hashedPassword = await this.hashGenerator.hash(password)
     const adminDocument = new Document(document.toString())
 
-    if (!document.validateCpf()) {
+    if (!adminDocument.validateCpf()) {
       return left(new InvalidDocumentError())
     }
 
     const deliverymanAlreadyExists =
-      await this.deliverymanRepository.findByDocument(document.toValue())
+      await this.deliverymanRepository.findByDocument(adminDocument.toValue())
 
     if (deliverymanAlreadyExists) {
       return left(new DeliverymanAlreadyExistsError())

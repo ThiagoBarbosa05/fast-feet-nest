@@ -24,7 +24,7 @@ describe('Register deliveryman', () => {
   it('should be able to register a deliveryman', async () => {
     const result = await sut.execute({
       name: 'John Doe',
-      document: new Document('12345678909'),
+      document: '12345678909',
       password: 'example',
       address: new Address(
         'Rua x',
@@ -44,7 +44,7 @@ describe('Register deliveryman', () => {
 
   it('should hash deliveryman password upon registration', async () => {
     const result = await sut.execute({
-      document: new Document('12345678909'),
+      document: '12345678909',
       address: new Address(
         'Rua x',
         'Rio de Janeiro',
@@ -67,7 +67,7 @@ describe('Register deliveryman', () => {
 
   it('not should be able to register an deliveryman with invalid document.', async () => {
     const result = await sut.execute({
-      document: new Document('1640952675343'),
+      document: '1640952675343',
       name: 'John Doe',
       address: new Address(
         'Rua x',
@@ -92,7 +92,7 @@ describe('Register deliveryman', () => {
     inMemoryDeliverymanRepository.items.push(admin)
 
     const result = await sut.execute({
-      document: new Document('12345678909'),
+      document: '12345678909',
       name: 'John Doe',
       address: new Address(
         'Rua x',

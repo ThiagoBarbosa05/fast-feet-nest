@@ -9,7 +9,7 @@ import { Injectable } from '@nestjs/common'
 
 interface RegisterAdministratorUseCaseRequest {
   name: string
-  document: Document
+  document: string
   password: string
 }
 
@@ -35,12 +35,14 @@ export class RegisterAdministratorUseCase {
     const hashedPassword = await this.hashGenerator.hash(password)
     const adminDocument = new Document(document.toString())
 
-    if (!document.validateCpf()) {
+    if (!adminDocument.validateCpf()) {
       return left(new InvalidDocumentError())
     }
 
     const administratorAlreadyExists =
-      await this.administratorRepository.findByDocument(document.toValue())
+      await this.administratorRepository.findByDocument(
+        adminDocument.toString(),
+      )
 
     if (administratorAlreadyExists) {
       return left(new AdministratorAlreadyExistsError())

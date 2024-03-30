@@ -9,7 +9,7 @@ import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
 interface CreateRecipientUseCaseRequest {
   orderId: string
   name: string
-  document: Document
+  document: string
   address: Address
 }
 

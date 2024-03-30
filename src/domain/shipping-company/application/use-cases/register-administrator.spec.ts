@@ -22,7 +22,7 @@ describe('Register Administrator', () => {
 
   it('should be able to register an administrator', async () => {
     const result = await sut.execute({
-      document: new Document('16409526750'),
+      document: '16409526750',
       name: 'John Doe',
       password: 'example',
     })
@@ -35,7 +35,7 @@ describe('Register Administrator', () => {
 
   it('should hash administrator password upon registration', async () => {
     const result = await sut.execute({
-      document: new Document('16409526750'),
+      document: '16409526750',
       name: 'John Doe',
       password: 'example',
     })
@@ -50,7 +50,7 @@ describe('Register Administrator', () => {
 
   it('not should be able to register an administrator with invalid document.', async () => {
     const result = await sut.execute({
-      document: new Document('1640952675034'),
+      document: '1640952675034',
       name: 'John Doe',
       password: 'example',
     })
@@ -67,7 +67,7 @@ describe('Register Administrator', () => {
     inMemoryAdministratorRepository.items.push(admin)
 
     const result = await sut.execute({
-      document: new Document('16409526750'),
+      document: '16409526750',
       name: 'John Doe',
       password: 'example',
     })

@@ -1,5 +1,27 @@
+import { AdministratorAlreadyExistsError } from '@/domain/shipping-company/application/use-cases/errors/administrator-already-exists-error'
+import { InvalidDocumentError } from '@/domain/shipping-company/application/use-cases/errors/invalid-document-error'
 import { RegisterAdministratorUseCase } from '@/domain/shipping-company/application/use-cases/register-administrator'
-import { Body, Controller, HttpCode, Post } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  ConflictException,
+  Controller,
+  HttpCode,
+  Post,
+  UsePipes,
+} from '@nestjs/common'
+import { z } from 'zod'
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+
+const registerAdministratorBodySchema = z.object({
+  name: z.string(),
+  document: z.string(),
+  password: z.string(),
+})
+
+type RegisterAdministratorBodySchema = z.infer<
+  typeof registerAdministratorBodySchema
+>
 
 @Controller('/register/administrator')
 export class RegisterAdministratorController {
@@ -7,7 +29,8 @@ export class RegisterAdministratorController {
 
   @Post()
   @HttpCode(201)
-  async execute(@Body() body) {
+  @UsePipes(new ZodValidationPipe(registerAdministratorBodySchema))
+  async execute(@Body() body: RegisterAdministratorBodySchema) {
     const { name, document, password } = body
 
     const result = await this.registerAdministrator.execute({
@@ -15,7 +38,17 @@ export class RegisterAdministratorController {
       document,
       password,
     })
+    if (result.isLeft()) {
+      const error = result.value
 
-    console.log(result)
+      switch (error.constructor) {
+        case AdministratorAlreadyExistsError:
+          throw new ConflictException(error.message)
+        case InvalidDocumentError:
+          throw new BadRequestException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
+    }
   }
 }

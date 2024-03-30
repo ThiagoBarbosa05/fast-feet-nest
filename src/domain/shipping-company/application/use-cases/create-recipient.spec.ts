@@ -1,7 +1,6 @@
 import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient'
 import { CreateRecipientUseCase } from './create-recipient'
 import { Address } from '../../enterprise/entities/value-objects.ts/address'
-import { Document } from '../../enterprise/entities/value-objects.ts/document'
 
 let inMemoryRecipientRepository: InMemoryRecipientRepository
 let sut: CreateRecipientUseCase
@@ -22,7 +21,7 @@ describe('Create Recipient', () => {
         335345,
         3535356,
       ),
-      document: new Document('12345678909'),
+      document: '12345678909',
       name: 'John Doe',
       orderId: 'order-1',
     })
