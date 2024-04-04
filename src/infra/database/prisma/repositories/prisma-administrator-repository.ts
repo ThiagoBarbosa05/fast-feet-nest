@@ -5,16 +5,17 @@ import { PrismaAdministratorMapper } from '../mappers/prisma-administrator-mappe
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
-export class PrismaAdministratorRepository extends AdministratorRepository {
-  constructor(private prisma: PrismaService) {
-    super()
-  }
+export class PrismaAdministratorRepository implements AdministratorRepository {
+  constructor(private prisma: PrismaService) {}
 
   async create(administrator: Administrator) {
     const data = PrismaAdministratorMapper.toPrisma(administrator)
 
     await this.prisma.user.create({
-      data,
+      data: {
+        ...data,
+        role: 'ADMINISTRATOR'
+      },
     })
   }
 

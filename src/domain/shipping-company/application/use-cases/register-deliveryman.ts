@@ -6,6 +6,7 @@ import { HashGenerator } from '../cryptography/hash-generator'
 import { DeliverymanRepository } from '../repositories/deliveryman'
 import { InvalidDocumentError } from './errors/invalid-document-error'
 import { DeliverymanAlreadyExistsError } from './errors/deliveryman-already-exists-error'
+import { Injectable } from '@nestjs/common'
 
 interface RegisterDeliverymanUseCaseRequest {
   name: string
@@ -21,6 +22,7 @@ type RegisterDeliverymanUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class RegisterDeliverymanUseCase {
   constructor(
     private hashGenerator: HashGenerator,
@@ -34,14 +36,14 @@ export class RegisterDeliverymanUseCase {
     password,
   }: RegisterDeliverymanUseCaseRequest): Promise<RegisterDeliverymanUseCaseResponse> {
     const hashedPassword = await this.hashGenerator.hash(password)
-    const adminDocument = new Document(document.toString())
+    const deliverymanDocument = new Document(document.toString())
 
-    if (!adminDocument.validateCpf()) {
+    if (!deliverymanDocument.validateCpf()) {
       return left(new InvalidDocumentError())
     }
 
     const deliverymanAlreadyExists =
-      await this.deliverymanRepository.findByDocument(adminDocument.toValue())
+      await this.deliverymanRepository.findByDocument(deliverymanDocument.toString())
 
     if (deliverymanAlreadyExists) {
       return left(new DeliverymanAlreadyExistsError())
@@ -58,7 +60,7 @@ export class RegisterDeliverymanUseCase {
 
     const deliveryman = Deliveryman.create({
       address: deliverymanAddress,
-      document: adminDocument,
+      document: deliverymanDocument,
       name,
       password: hashedPassword,
     })
