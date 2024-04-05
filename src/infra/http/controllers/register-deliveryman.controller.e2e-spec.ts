@@ -1,11 +1,12 @@
 import { AppModule } from '@/app.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { faker } from '@faker-js/faker'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 
 import request from 'supertest'
 
-describe('Register Administrator (E2E)', () => {
+describe('Register Deliveryman (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
 
@@ -21,20 +22,28 @@ describe('Register Administrator (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /register/administrator', async () => {
+  test('[POST] /register/deliveryman', async () => {
     const response = await request(app.getHttpServer())
-      .post('/register/administrator')
+      .post('/register/deliveryman')
       .send({
         name: 'John Doe',
-        document: '16409526750',
+        document: '67224677329',
         password: '364556',
+        address: {
+          city: faker.location.city(),
+          street: faker.location.street(),
+          state: faker.location.state(),
+          zipCode: faker.location.zipCode(),
+          latitude: faker.location.latitude(),
+          longitude: faker.location.longitude(),
+        },
       })
 
     expect(response.statusCode).toBe(201)
 
     const userOnDatabase = await prisma.user.findUnique({
       where: {
-        document: '16409526750',
+        document: '67224677329',
       },
     })
 

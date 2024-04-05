@@ -36,14 +36,16 @@ export class RegisterDeliverymanUseCase {
     password,
   }: RegisterDeliverymanUseCaseRequest): Promise<RegisterDeliverymanUseCaseResponse> {
     const hashedPassword = await this.hashGenerator.hash(password)
-    const deliverymanDocument = new Document(document.toString())
+    const deliverymanDocument = new Document(document)
 
     if (!deliverymanDocument.validateCpf()) {
       return left(new InvalidDocumentError())
     }
 
     const deliverymanAlreadyExists =
-      await this.deliverymanRepository.findByDocument(deliverymanDocument.toString())
+      await this.deliverymanRepository.findByDocument(
+        deliverymanDocument.toValue(),
+      )
 
     if (deliverymanAlreadyExists) {
       return left(new DeliverymanAlreadyExistsError())

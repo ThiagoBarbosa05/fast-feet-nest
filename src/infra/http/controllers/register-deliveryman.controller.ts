@@ -1,8 +1,18 @@
 import { RegisterDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/register-deliveryman'
-import { Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  ConflictException,
+  Controller,
+  HttpCode,
+  Post,
+  UsePipes,
+} from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { Address } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/address'
+import { AdministratorAlreadyExistsError } from '@/domain/shipping-company/application/use-cases/errors/administrator-already-exists-error'
+import { InvalidDocumentError } from '@/domain/shipping-company/application/use-cases/errors/invalid-document-error'
 
 const registrationDeliverymanBodySchema = z.object({
   name: z.string(),
@@ -46,6 +56,17 @@ export class RegisterDeliverymanController {
       document,
     })
 
-    console.log(result)
+    if (result.isLeft()) {
+      const error = result.value
+
+      switch (error.constructor) {
+        case AdministratorAlreadyExistsError:
+          throw new ConflictException(error.message)
+        case InvalidDocumentError:
+          throw new BadRequestException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
+    }
   }
 }

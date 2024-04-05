@@ -14,7 +14,7 @@ export class PrismaAdministratorRepository implements AdministratorRepository {
     await this.prisma.user.create({
       data: {
         ...data,
-        role: 'ADMINISTRATOR'
+        role: 'ADMINISTRATOR',
       },
     })
   }
