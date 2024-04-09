@@ -4,7 +4,7 @@ import { PrismaService } from './infra/database/prisma/prisma.service'
 import { EnvModule } from './infra/env/env.module'
 import { ConfigModule } from '@nestjs/config'
 import { envSchema } from './infra/env/env'
-import { AuthModule } from './auth/auth.module'
+import { AuthModule } from './infra/auth/auth.module'
 
 @Module({
   imports: [

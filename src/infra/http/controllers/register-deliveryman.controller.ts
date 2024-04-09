@@ -13,6 +13,7 @@ import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { Address } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/address'
 import { AdministratorAlreadyExistsError } from '@/domain/shipping-company/application/use-cases/errors/administrator-already-exists-error'
 import { InvalidDocumentError } from '@/domain/shipping-company/application/use-cases/errors/invalid-document-error'
+import { Public } from '@/infra/auth/public'
 
 const registrationDeliverymanBodySchema = z.object({
   name: z.string(),
@@ -33,13 +34,14 @@ type RegistrationDeliverymanBodySchema = z.infer<
 >
 
 @Controller('/register/deliveryman')
+@Public()
 export class RegisterDeliverymanController {
   constructor(private registerDeliveryman: RegisterDeliverymanUseCase) {}
 
   @Post()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(registrationDeliverymanBodySchema))
-  async execute(@Body() body: RegistrationDeliverymanBodySchema) {
+  async handle(@Body() body: RegistrationDeliverymanBodySchema) {
     const { address, document, name, password } = body
 
     const result = await this.registerDeliveryman.execute({

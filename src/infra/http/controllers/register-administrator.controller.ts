@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { Public } from '@/infra/auth/public'
 
 const registerAdministratorBodySchema = z.object({
   name: z.string(),
@@ -24,13 +25,14 @@ type RegisterAdministratorBodySchema = z.infer<
 >
 
 @Controller('/register/administrator')
+@Public()
 export class RegisterAdministratorController {
   constructor(private registerAdministrator: RegisterAdministratorUseCase) {}
 
   @Post()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(registerAdministratorBodySchema))
-  async execute(@Body() body: RegisterAdministratorBodySchema) {
+  async handle(@Body() body: RegisterAdministratorBodySchema) {
     const { name, document, password } = body
 
     const result = await this.registerAdministrator.execute({

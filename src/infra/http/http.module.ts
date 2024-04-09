@@ -6,6 +6,8 @@ import { DatabaseModule } from '../database/database.module'
 import { RegisterDeliverymanController } from './controllers/register-deliveryman.controller'
 import { RegisterDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/register-deliveryman'
 import { AuthenticateController } from './controllers/authenticate.controller'
+import { ListController } from './controllers/list.controller'
+import { AuthenticateDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/authenticate-deliveryman'
 
 @Module({
   imports: [CryptographyModule, DatabaseModule],
@@ -13,7 +15,12 @@ import { AuthenticateController } from './controllers/authenticate.controller'
     RegisterAdministratorController,
     RegisterDeliverymanController,
     AuthenticateController,
+    ListController,
   ],
-  providers: [RegisterAdministratorUseCase, RegisterDeliverymanUseCase],
+  providers: [
+    RegisterAdministratorUseCase,
+    RegisterDeliverymanUseCase,
+    AuthenticateDeliverymanUseCase,
+  ],
 })
 export class HttpModule {}
