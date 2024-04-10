@@ -17,12 +17,12 @@ export class PrismaDeliverymanMapper {
     )
   }
 
-  static toPrisma(admin: Deliveryman): Prisma.UserUncheckedCreateInput {
+  static toPrisma(deliveryman: Deliveryman): Prisma.UserUncheckedCreateInput {
     return {
-      id: admin.id.toString(),
-      name: admin.name,
-      document: admin.document.toString(),
-      password: admin.password,
+      id: deliveryman.id.toString(),
+      name: deliveryman.name,
+      document: deliveryman.document.toString(),
+      password: deliveryman.password,
     }
   }
 }

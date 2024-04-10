@@ -10,6 +10,8 @@ import { ListController } from './controllers/list.controller'
 import { AuthenticateDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/authenticate-deliveryman'
 import { AuthenticateAdministratorController } from './controllers/authenticate-administrator.controller'
 import { AuthenticateAdministratorUseCase } from '@/domain/shipping-company/application/use-cases/authenticate-administrator'
+import { EditDeliverymanController } from './controllers/edit-deliveryman.controller'
+import { EditDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/edit-deliveryman'
 
 @Module({
   imports: [CryptographyModule, DatabaseModule],
@@ -18,11 +20,13 @@ import { AuthenticateAdministratorUseCase } from '@/domain/shipping-company/appl
     RegisterDeliverymanController,
     AuthenticateController,
     AuthenticateAdministratorController,
+    EditDeliverymanController,
     ListController,
   ],
   providers: [
     RegisterAdministratorUseCase,
     RegisterDeliverymanUseCase,
+    EditDeliverymanUseCase,
     AuthenticateAdministratorUseCase,
     AuthenticateDeliverymanUseCase,
   ],

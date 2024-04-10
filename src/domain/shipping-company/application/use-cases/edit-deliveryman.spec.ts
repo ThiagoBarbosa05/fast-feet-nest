@@ -3,14 +3,17 @@ import { EditDeliverymanUseCase } from './edit-deliveryman'
 import { makeDeliveryman } from 'test/factories/make-deliveryman'
 import { Address } from '../../enterprise/entities/value-objects.ts/address'
 import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
+import { FakeHasher } from 'test/cryptography/fake-hasher'
 
 let inMemoryDeliverymanRepository: InMemoryDeliverymanRepository
+let fakeHasher: FakeHasher
 let sut: EditDeliverymanUseCase
 
 describe('Edit deliveryman', () => {
   beforeEach(() => {
     inMemoryDeliverymanRepository = new InMemoryDeliverymanRepository()
-    sut = new EditDeliverymanUseCase(inMemoryDeliverymanRepository)
+    fakeHasher = new FakeHasher()
+    sut = new EditDeliverymanUseCase(inMemoryDeliverymanRepository, fakeHasher)
   })
 
   it('should be to edit a deliveryman', async () => {
@@ -32,6 +35,7 @@ describe('Edit deliveryman', () => {
 
     await sut.execute({
       deliverymanId: deliveryman.id.toString(),
+      password: 'new-password',
       address: new Address(
         'street x',
         'London',

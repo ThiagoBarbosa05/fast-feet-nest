@@ -55,13 +55,43 @@ export class PrismaDeliverymanRepository implements DeliverymanRepository {
       },
     })
 
-    if (!deliverymanId) return null
+    if (!deliveryman) return null
 
     return PrismaDeliverymanMapper.toDomain(deliveryman)
   }
 
   async save(deliveryman: Deliveryman) {
-    console.log('oi')
+    const data = PrismaDeliverymanMapper.toPrisma(deliveryman)
+    console.log(deliveryman)
+
+    await this.prisma.$transaction(async (tx) => {
+      const deliverymanFound = await this.prisma.user.findUnique({
+        where: {
+          id: data.id,
+        },
+      })
+
+      await tx.address.update({
+        where: {
+          id: deliverymanFound.addressId,
+        },
+        data: {
+          city: deliveryman.address.city,
+          street: deliveryman.address.street,
+          state: deliveryman.address.state,
+          zipCode: deliveryman.address.zipCode,
+          latitude: deliveryman.address.latitude,
+          longitude: deliveryman.address.longitude,
+        },
+      })
+
+      await tx.user.update({
+        where: {
+          id: data.id,
+        },
+        data,
+      })
+    })
   }
 
   async delete(deliveryman: Deliveryman) {
