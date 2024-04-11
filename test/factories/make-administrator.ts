@@ -30,15 +30,16 @@ export function makeAdministrator(
 export class AdministratorFactory {
   constructor(private prisma: PrismaService) {}
 
-  async makePrismaAdministrator(
-    data: Partial<AdministratorProps> = {},
-  ): Promise<Administrator> {
+  async makePrismaAdministrator(data: Partial<AdministratorProps> = {}) {
     const administrator = makeAdministrator(data)
 
-    await this.prisma.user.create({
-      data: PrismaAdministratorMapper.toPrisma(administrator),
+    const administratorOnDatabase = await this.prisma.user.create({
+      data: {
+        ...PrismaAdministratorMapper.toPrisma(administrator),
+        role: 'ADMINISTRATOR',
+      },
     })
 
-    return administrator
+    return administratorOnDatabase
   }
 }

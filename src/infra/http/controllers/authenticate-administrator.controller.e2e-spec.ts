@@ -30,10 +30,12 @@ describe('Authenticate Administrator (E2E)', () => {
       password: await hash('364556', 8),
     })
 
-    const response = await request(app.getHttpServer()).post('/sessions').send({
-      document: '8585557339',
-      password: '364556',
-    })
+    const response = await request(app.getHttpServer())
+      .post('/sessions/admin')
+      .send({
+        document: '8585557339',
+        password: '364556',
+      })
 
     expect(response.statusCode).toBe(201)
     expect(response.body).toEqual({

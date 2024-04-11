@@ -5,7 +5,6 @@ import {
 } from '@/domain/shipping-company/enterprise/entities/deliveryman'
 import { Address } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/address'
 import { Document } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/document'
-import { PrismaDeliverymanMapper } from '@/infra/database/prisma/mappers/prisma-deliveryman-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { faker } from '@faker-js/faker'
 import { Injectable } from '@nestjs/common'
@@ -40,15 +39,30 @@ export function makeDeliveryman(
 export class DeliverymanFactory {
   constructor(private prisma: PrismaService) {}
 
-  async makePrismaDeliveryman(
-    data: Partial<DeliverymanProps> = {},
-  ): Promise<Deliveryman> {
+  async makePrismaDeliveryman(data: Partial<DeliverymanProps> = {}) {
     const deliveryman = makeDeliveryman(data)
 
-    await this.prisma.user.create({
-      data: PrismaDeliverymanMapper.toPrisma(deliveryman),
+    const address = await this.prisma.address.create({
+      data: {
+        city: deliveryman.address.city,
+        street: deliveryman.address.street,
+        state: deliveryman.address.state,
+        zipCode: deliveryman.address.zipCode,
+        latitude: deliveryman.address.latitude,
+        longitude: deliveryman.address.longitude,
+      },
     })
 
-    return deliveryman
+    const deliverymanOnDatabase = await this.prisma.user.create({
+      data: {
+        document: deliveryman.document.toString(),
+        name: deliveryman.name,
+        password: deliveryman.password,
+        role: 'DELIVERYMAN',
+        addressId: address.id,
+      },
+    })
+
+    return deliverymanOnDatabase
   }
 }
