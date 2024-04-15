@@ -86,7 +86,11 @@ export class PrismaDeliverymanRepository implements DeliverymanRepository {
   }
 
   async delete(deliveryman: Deliveryman) {
-    console.log('oi')
+    await this.prisma.user.delete({
+      where: {
+        id: deliveryman.id.toString(),
+      },
+    })
   }
 
   async findMany({ page }: PaginationParams) {

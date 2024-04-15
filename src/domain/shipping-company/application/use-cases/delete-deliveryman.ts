@@ -1,6 +1,7 @@
 import { Either, left, right } from '@/core/either'
 import { DeliverymanRepository } from '../repositories/deliveryman'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteDeliverymanUseCaseRequest {
   deliverymanId: string
@@ -8,6 +9,7 @@ interface DeleteDeliverymanUseCaseRequest {
 
 type DeleteDeliverymanUseCaseResponse = Either<ResourceNotFoundError, object>
 
+@Injectable()
 export class DeleteDeliverymanUseCase {
   constructor(private deliverymanRepository: DeliverymanRepository) {}
 

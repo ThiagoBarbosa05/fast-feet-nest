@@ -11,9 +11,17 @@ import {
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { Address } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/address'
-import { AdministratorAlreadyExistsError } from '@/domain/shipping-company/application/use-cases/errors/administrator-already-exists-error'
 import { InvalidDocumentError } from '@/domain/shipping-company/application/use-cases/errors/invalid-document-error'
-import { Public } from '@/infra/auth/public'
+
+import { Roles } from '@/infra/auth/roles.decorator'
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiConflictResponse,
+} from '@nestjs/swagger'
+import { DeliverymanBody } from '../doc/swagger/deliveryman'
+import { DeliverymanAlreadyExistsError } from '@/domain/shipping-company/application/use-cases/errors/deliveryman-already-exists-error'
 
 const registrationDeliverymanBodySchema = z.object({
   name: z.string(),
@@ -34,13 +42,20 @@ type RegistrationDeliverymanBodySchema = z.infer<
 >
 
 @Controller('/register/deliveryman')
-@Public()
+@Roles(['ADMINISTRATOR'])
 export class RegisterDeliverymanController {
   constructor(private registerDeliveryman: RegisterDeliverymanUseCase) {}
 
   @Post()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(registrationDeliverymanBodySchema))
+
+  // Swagger Documentation
+  @ApiBody({ type: DeliverymanBody })
+  @ApiConflictResponse({ description: 'Deliveryman already registered.' })
+  @ApiBadRequestResponse({ description: 'Invalid document.' })
+  @ApiBearerAuth()
+  // Swagger Documentation
   async handle(@Body() body: RegistrationDeliverymanBodySchema) {
     const { address, document, name, password } = body
 
@@ -62,7 +77,7 @@ export class RegisterDeliverymanController {
       const error = result.value
 
       switch (error.constructor) {
-        case AdministratorAlreadyExistsError:
+        case DeliverymanAlreadyExistsError:
           throw new ConflictException(error.message)
         case InvalidDocumentError:
           throw new BadRequestException(error.message)

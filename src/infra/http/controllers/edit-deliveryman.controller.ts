@@ -12,6 +12,14 @@ import {
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { ResourceNotFoundError } from '@/domain/shipping-company/application/use-cases/errors/resource-not-found-error'
+import { EditDeliverymanBody } from '../doc/swagger/deliveryman'
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiConflictResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger'
 
 const editDeliverymanBodySchema = z.object({
   address: z.object({
@@ -38,7 +46,13 @@ export class EditDeliverymanController {
 
   @Put()
   @HttpCode(200)
-  // @UsePipes(new ZodValidationPipe(editDeliverymanBodySchema))
+
+  // Swagger Documentation
+  @ApiBody({ type: EditDeliverymanBody })
+  @ApiUnauthorizedResponse()
+  @ApiBadRequestResponse({ description: 'Resource not found.' })
+  @ApiBearerAuth()
+  // Swagger Documentation
   async handle(
     @Body(bodyValidationPipe) body: EditDeliverymanBodySchema,
     @Param('deliverymanId') deliverymanId: string,

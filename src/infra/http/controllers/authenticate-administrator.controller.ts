@@ -11,6 +11,16 @@ import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { Public } from '@/infra/auth/public'
 import { WrongCredentialsError } from '@/domain/shipping-company/application/use-cases/errors/wrong-credentials-error'
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger'
+import {
+  AuthenticateBody,
+  AuthenticateResponse,
+} from '../doc/swagger/authenticate'
 
 const authenticateBodySchema = z.object({
   document: z.string(),
@@ -28,6 +38,15 @@ export class AuthenticateAdministratorController {
 
   @Post()
   @UsePipes(new ZodValidationPipe(authenticateBodySchema))
+
+  // Swagger Documentation
+  @ApiBody({
+    type: AuthenticateBody,
+  })
+  @ApiCreatedResponse({ type: AuthenticateResponse })
+  @ApiUnauthorizedResponse({ description: 'Wrong credentials.' })
+  @ApiBadRequestResponse({ description: 'Bad request.' })
+  // Swagger Documentation
   async handle(@Body() body: AuthenticateBodySchema) {
     const { document, password } = body
 

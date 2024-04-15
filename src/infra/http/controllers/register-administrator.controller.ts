@@ -13,6 +13,12 @@ import {
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { Public } from '@/infra/auth/public'
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiConflictResponse,
+} from '@nestjs/swagger'
+import { AdministratorBody } from '../doc/swagger/administrator'
 
 const registerAdministratorBodySchema = z.object({
   name: z.string(),
@@ -20,7 +26,7 @@ const registerAdministratorBodySchema = z.object({
   password: z.string(),
 })
 
-type RegisterAdministratorBodySchema = z.infer<
+export type RegisterAdministratorBodySchema = z.infer<
   typeof registerAdministratorBodySchema
 >
 
@@ -32,6 +38,12 @@ export class RegisterAdministratorController {
   @Post()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(registerAdministratorBodySchema))
+
+  // Swagger Documentation
+  @ApiBody({ type: AdministratorBody })
+  @ApiConflictResponse({ description: 'Administrator already registered.' })
+  @ApiBadRequestResponse({ description: 'Invalid document.' })
+  // Swagger Documentation
   async handle(@Body() body: RegisterAdministratorBodySchema) {
     const { name, document, password } = body
 
