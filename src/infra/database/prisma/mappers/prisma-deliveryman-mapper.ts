@@ -1,6 +1,5 @@
 import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
 import { Deliveryman } from '@/domain/shipping-company/enterprise/entities/deliveryman'
-import { Address } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/address'
 import { Document } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/document'
 import { User as PrismaUser, Prisma } from '@prisma/client'
 

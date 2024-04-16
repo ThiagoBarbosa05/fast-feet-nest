@@ -23,23 +23,48 @@ model User {
   name      String
   password  String
   document  String    @unique
-  role Role @default(DELIVERYMAN)
+  role      Role      @default(DELIVERYMAN)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
-  addressId String? @map("address_id")
-  
+  addressId String?   @map("address_id")
+
   address Address? @relation(fields: [addressId], references: [id])
+
   @@map("users")
 }
 
 model Address {
-  id       String @id @default(uuid())
-  street  String
-  city String
-  state String
-  zipCode String 
-  latitude Decimal
+  id        String  @id @default(uuid())
+  street    String
+  city      String
+  state     String
+  zipCode   String
+  latitude  Decimal
   longitude Decimal
 
-  user User[]
+  user      User[]
+  Recipient Recipient[]
+}
+
+model Recipient {
+  id        String    @id @default(uuid())
+  name      String
+  document  String
+  addressId String    @map("address_id")
+  address   Address   @relation(fields: [addressId], references: [id])
+  Order     Order[]
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+}
+
+model Order {
+  id             String    @id @default(uuid())
+  recipient      Recipient @relation(fields: [recipientId], references: [id])
+  recipientId    String    @map("recipient_id")
+  deliveryStatus String
+  collectedAt    DateTime? @map("collected_at")
+  deliveredAt    DateTime? @map("delivered_at")
+  returnedAt     DateTime? @map("returned_at")
+  createdAt      DateTime? @default(now()) @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
 }

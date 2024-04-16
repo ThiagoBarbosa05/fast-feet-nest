@@ -5,7 +5,6 @@ import { Entity } from '@/core/entities/entity'
 import { Optional } from '@/core/types/optional'
 
 export interface RecipientProps {
-  orderId: UniqueEntityID
   name: string
   document: Document
   address: Address
@@ -14,10 +13,6 @@ export interface RecipientProps {
 }
 
 export class Recipient extends Entity<RecipientProps> {
-  get orderId() {
-    return this.props.orderId
-  }
-
   get name() {
     return this.props.name
   }

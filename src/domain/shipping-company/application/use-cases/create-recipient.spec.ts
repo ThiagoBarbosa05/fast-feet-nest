@@ -23,7 +23,6 @@ describe('Create Recipient', () => {
       ),
       document: '12345678909',
       name: 'John Doe',
-      orderId: 'order-1',
     })
 
     expect(result.isRight()).toBe(true)

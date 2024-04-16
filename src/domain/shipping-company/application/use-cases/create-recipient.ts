@@ -4,10 +4,9 @@ import { Document } from '../../enterprise/entities/value-objects.ts/document'
 import { Recipient } from '../../enterprise/entities/recipient'
 import { RecipientRepository } from '../repositories/recipient'
 import { InvalidDocumentError } from './errors/invalid-document-error'
-import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
+import { Injectable } from '@nestjs/common'
 
 interface CreateRecipientUseCaseRequest {
-  orderId: string
   name: string
   document: string
   address: Address
@@ -20,6 +19,7 @@ type CreateRecipientUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateRecipientUseCase {
   constructor(private recipientRepository: RecipientRepository) {}
 
@@ -27,7 +27,6 @@ export class CreateRecipientUseCase {
     address,
     document,
     name,
-    orderId,
   }: CreateRecipientUseCaseRequest): Promise<CreateRecipientUseCaseResponse> {
     const recipientDocument = new Document(document.toString())
 
@@ -48,7 +47,6 @@ export class CreateRecipientUseCase {
       address: RecipientAddress,
       document: recipientDocument,
       name,
-      orderId: new UniqueEntityID(orderId),
     })
 
     await this.recipientRepository.create(recipient)

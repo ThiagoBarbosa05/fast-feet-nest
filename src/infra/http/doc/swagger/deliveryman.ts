@@ -1,6 +1,6 @@
 import { ApiProperty, PickType } from '@nestjs/swagger'
 
-class Address {
+export class Address {
   @ApiProperty()
   street: string
 
