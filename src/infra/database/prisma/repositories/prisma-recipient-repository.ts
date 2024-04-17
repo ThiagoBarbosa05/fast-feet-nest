@@ -31,8 +31,12 @@ export class PrismaRecipientRepository implements RecipientRepository {
     })
   }
 
-  findById(recipientId: string): Promise<Recipient> {
-    throw new Error('Method not implemented.')
+  async findById(recipientId: string): Promise<Recipient> {
+    const recipient = await this.prisma.recipient.findUnique({
+      where: { id: recipientId },
+    })
+
+    return PrismaRecipientMapper.toDomain(recipient)
   }
 
   delete(recipient: Recipient): Promise<void> {

@@ -3,7 +3,9 @@ import { EventHandler } from '@/core/events/event-handler'
 import { RecipientRepository } from '@/domain/shipping-company/application/repositories/recipient'
 import { UpdateDeliveryStatusEvent } from '@/domain/shipping-company/enterprise/events/update-delivery-status-event'
 import { SendNotificationUseCase } from '../application/use-cases/send-notification'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class OnUpdateDeliveryStatus implements EventHandler {
   constructor(
     private recipientRepository: RecipientRepository,

@@ -7,17 +7,20 @@ import {
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
 import { Order } from '@/domain/shipping-company/enterprise/entities/orders'
+import { DomainEvents } from '@/core/events/domain-events'
+import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
 
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {
   constructor(private prisma: PrismaService) {}
-  async create({ recipientId, deliveryStatus }: Order): Promise<void> {
+  async create(order: Order): Promise<void> {
+    const data = PrismaOrderMapper.toPrisma(order)
+
     await this.prisma.order.create({
-      data: {
-        recipientId: recipientId.toString(),
-        deliveryStatus,
-      },
+      data,
     })
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
   listManyByDeliverymanId({

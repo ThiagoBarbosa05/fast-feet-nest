@@ -19,6 +19,8 @@ function generateUniqueDatabaseURL(schemaId: string) {
 
   const url = new URL(env.DATABASE_URL)
 
+  DomainEvents.shouldRun = false
+
   url.searchParams.set('schema', schemaId)
 
   return url.toString()

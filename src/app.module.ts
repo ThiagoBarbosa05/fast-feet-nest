@@ -5,6 +5,7 @@ import { EnvModule } from './infra/env/env.module'
 import { ConfigModule } from '@nestjs/config'
 import { envSchema } from './infra/env/env'
 import { AuthModule } from './infra/auth/auth.module'
+import { EventsModule } from './infra/events/events.module'
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AuthModule } from './infra/auth/auth.module'
     AuthModule,
     HttpModule,
     EnvModule,
+    EventsModule,
   ],
   providers: [PrismaService],
 })

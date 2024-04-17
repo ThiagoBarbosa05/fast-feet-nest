@@ -8,6 +8,8 @@ import { OrderRepository } from '@/domain/shipping-company/application/repositor
 import { PrismaOrderRepository } from './prisma/repositories/prisma-order-repository'
 import { RecipientRepository } from '@/domain/shipping-company/application/repositories/recipient'
 import { PrismaRecipientRepository } from './prisma/repositories/prisma-recipient-repository'
+import { NotificationsRepository } from '@/domain/notification/application/repositories/notifications'
+import { PrismaNotificationsRepository } from './prisma/repositories/prisma-notification-repository'
 
 @Module({
   providers: [
@@ -28,12 +30,17 @@ import { PrismaRecipientRepository } from './prisma/repositories/prisma-recipien
       provide: RecipientRepository,
       useClass: PrismaRecipientRepository,
     },
+    {
+      provide: NotificationsRepository,
+      useClass: PrismaNotificationsRepository,
+    },
   ],
   exports: [
     PrismaService,
     AdministratorRepository,
     DeliverymanRepository,
     OrderRepository,
+    NotificationsRepository,
     RecipientRepository,
   ],
 })

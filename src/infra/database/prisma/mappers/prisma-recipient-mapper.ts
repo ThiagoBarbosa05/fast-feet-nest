@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
 import { Recipient } from '@/domain/shipping-company/enterprise/entities/recipient'
 import { Document } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/document'
-import { User as PrismaUser, Prisma } from '@prisma/client'
+import { Recipient as PrismaRecipient, Prisma } from '@prisma/client'
 
 export class PrismaRecipientMapper {
-  static toDomain(raw: PrismaUser): Recipient {
+  static toDomain(raw: PrismaRecipient): Recipient {
     return Recipient.create(
       {
         name: raw.name,
