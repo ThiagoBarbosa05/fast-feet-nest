@@ -2,6 +2,7 @@ import { Either, left, right } from '@/core/either'
 import { Order } from '../../enterprise/entities/orders'
 import { OrderRepository } from '../repositories/order'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface FetchOrdersByDeliverymanIdRequest {
   deliverymanId: string
@@ -15,7 +16,8 @@ type FetchOrdersByDeliverymanIdResponse = Either<
   }
 >
 
-export class FetchOrdersByDeliverymanId {
+@Injectable()
+export class FetchOrdersByDeliverymanIdUseCase {
   constructor(private orderRepository: OrderRepository) {}
 
   async execute({
@@ -28,10 +30,6 @@ export class FetchOrdersByDeliverymanId {
     })
 
     if (!orders) {
-      return left(new ResourceNotFoundError())
-    }
-
-    if (orders.length <= 0) {
       return left(new ResourceNotFoundError())
     }
 

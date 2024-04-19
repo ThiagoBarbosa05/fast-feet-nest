@@ -23,11 +23,19 @@ export class PrismaOrderRepository implements OrderRepository {
     DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
-  listManyByDeliverymanId({
+  async listManyByDeliverymanId({
     deliverymanId,
     page,
-  }: ListManyByDeliverymanIdParams): Promise<Order[]> {
-    throw new Error('Method not implemented.')
+  }: ListManyByDeliverymanIdParams) {
+    const order = await this.prisma.order.findMany({
+      where: {
+        deliverymanId,
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return order.map(PrismaOrderMapper.toDomain)
   }
 
   listManyByRecipientId({

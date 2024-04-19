@@ -31,10 +31,6 @@ export class FetchOrdersByRecipientIdUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    if (orders.length <= 0) {
-      return left(new ResourceNotFoundError())
-    }
-
     return right({
       order: orders,
     })

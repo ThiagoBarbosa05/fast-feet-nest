@@ -36,7 +36,7 @@ export class DeliverymanBody {
   address: Address
 }
 
-export class DeliverymanBodyResponse {
+export class DeliverymanResponseBody {
   @ApiProperty()
   id: string
 

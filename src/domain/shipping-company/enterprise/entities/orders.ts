@@ -64,6 +64,18 @@ export class Order extends AggregateRoot<OrderProps> {
     this.props.attachments = attachments
   }
 
+  get collectedAt() {
+    return this.props.collectedAt
+  }
+
+  get deliveredAt() {
+    return this.props.deliveredAt
+  }
+
+  get returnedAt() {
+    return this.props.returnedAt
+  }
+
   get createdAt() {
     return this.props.createdAt
   }

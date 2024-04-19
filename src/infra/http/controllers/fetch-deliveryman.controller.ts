@@ -9,7 +9,7 @@ import {
   ApiUnauthorizedResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger'
-import { DeliverymanBodyResponse } from '../doc/swagger/deliveryman'
+import { DeliverymanResponseBody } from '../doc/swagger/deliveryman'
 
 const pageQuerySchema = z
   .string()
@@ -30,7 +30,7 @@ export class FetchDeliverymanController {
   @Get()
 
   // Swagger Documentation
-  @ApiBody({ type: DeliverymanBodyResponse })
+  @ApiBody({ type: [DeliverymanResponseBody] })
   @ApiUnauthorizedResponse()
   @ApiBearerAuth()
   // Swagger Documentation

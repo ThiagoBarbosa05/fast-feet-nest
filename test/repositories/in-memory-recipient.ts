@@ -9,7 +9,7 @@ export class InMemoryRecipientRepository implements RecipientRepository {
   }
 
   async findById(recipientId: string) {
-    const recipient = await this.items.find(
+    const recipient = this.items.find(
       (item) => item.id.toString() === recipientId,
     )
 

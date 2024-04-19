@@ -68,8 +68,8 @@ model Order {
   returnedAt     DateTime? @map("returned_at")
   createdAt      DateTime? @default(now()) @map("created_at")
   updatedAt      DateTime? @updatedAt @map("updated_at")
-  userId         String?   @map("deliveryman_id")
-  User           User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  deliverymanId  String?   @map("deliveryman_id")
+  User           User?     @relation(fields: [deliverymanId], references: [id], onDelete: SetNull)
   recipient      Recipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
 }
 

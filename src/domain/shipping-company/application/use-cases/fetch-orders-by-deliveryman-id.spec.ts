@@ -1,16 +1,15 @@
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order'
-import { FetchOrdersByDeliverymanId } from './fetch-orders-by-deliveryman-id'
+import { FetchOrdersByDeliverymanIdUseCase } from './fetch-orders-by-deliveryman-id'
 import { InMemoryDeliverymanRepository } from 'test/repositories/in-memory-deliveryman'
 import { makeDeliveryman } from 'test/factories/make-deliveryman'
 import { makeOrder } from 'test/factories/make-order'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient'
 
 let inMemoryRecipientRepository: InMemoryRecipientRepository
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryDeliverymanRepository: InMemoryDeliverymanRepository
-let sut: FetchOrdersByDeliverymanId
+let sut: FetchOrdersByDeliverymanIdUseCase
 
 describe('Fetch orders by deliveryman id', () => {
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('Fetch orders by deliveryman id', () => {
       inMemoryRecipientRepository,
     )
     inMemoryDeliverymanRepository = new InMemoryDeliverymanRepository()
-    sut = new FetchOrdersByDeliverymanId(inMemoryOrderRepository)
+    sut = new FetchOrdersByDeliverymanIdUseCase(inMemoryOrderRepository)
   })
 
   it('should be able to fetch orders by deliveryman id', async () => {
@@ -67,7 +66,8 @@ describe('Fetch orders by deliveryman id', () => {
       page: 1,
     })
 
-    expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
+    expect(result.value).toEqual({
+      orders: [],
+    })
   })
 })

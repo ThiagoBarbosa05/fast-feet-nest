@@ -2,7 +2,6 @@ import { InMemoryOrderRepository } from 'test/repositories/in-memory-order'
 import { FetchOrdersByRecipientIdUseCase } from './fetch-orders-by-recipient-id'
 import { makeRecipient } from 'test/factories/make-recipient'
 import { makeOrder } from 'test/factories/make-order'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient'
 
 let inMemoryRecipientRepository: InMemoryRecipientRepository
@@ -65,7 +64,8 @@ describe('Fetch orders by recipient id', () => {
       page: 1,
     })
 
-    expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
+    expect(result.value).toEqual({
+      order: [],
+    })
   })
 })
