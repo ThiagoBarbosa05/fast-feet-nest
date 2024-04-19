@@ -61,7 +61,6 @@ model Recipient {
 
 model Order {
   id             String    @id @default(uuid())
-  recipient      Recipient @relation(fields: [recipientId], references: [id])
   recipientId    String    @map("recipient_id")
   deliveryStatus String
   collectedAt    DateTime? @map("collected_at")
@@ -70,7 +69,8 @@ model Order {
   createdAt      DateTime? @default(now()) @map("created_at")
   updatedAt      DateTime? @updatedAt @map("updated_at")
   userId         String?   @map("deliveryman_id")
-  User           User?     @relation(fields: [userId], references: [id])
+  User           User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  recipient      Recipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
 }
 
 model Notification {

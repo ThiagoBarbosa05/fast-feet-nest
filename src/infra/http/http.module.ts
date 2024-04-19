@@ -17,6 +17,12 @@ import { DeleteDeliverymanUseCase } from '@/domain/shipping-company/application/
 import { CreateRecipientAndOrder } from './controllers/create-recipient-and-order.controller'
 import { CreateOrderUseCase } from '@/domain/shipping-company/application/use-cases/create-order'
 import { CreateRecipientUseCase } from '@/domain/shipping-company/application/use-cases/create-recipient'
+import { DeleteRecipientController } from './controllers/delete-recipient.controller'
+import { DeleteRecipientUseCase } from '@/domain/shipping-company/application/use-cases/delete-recipient'
+import { EditRecipientController } from './controllers/edit-recipient.controller'
+import { EditRecipientUseCase } from '@/domain/shipping-company/application/use-cases/edit-recipient'
+import { FetchDeliverymanController } from './controllers/fetch-deliveryman.controller'
+import { FetchDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/fetch-deliveryman'
 
 @Module({
   imports: [CryptographyModule, DatabaseModule],
@@ -28,6 +34,9 @@ import { CreateRecipientUseCase } from '@/domain/shipping-company/application/us
     EditDeliverymanController,
     DeleteDeliverymanController,
     CreateRecipientAndOrder,
+    DeleteRecipientController,
+    EditRecipientController,
+    FetchDeliverymanController,
     ListController,
   ],
   providers: [
@@ -37,6 +46,9 @@ import { CreateRecipientUseCase } from '@/domain/shipping-company/application/us
     CreateRecipientUseCase,
     DeleteDeliverymanUseCase,
     EditDeliverymanUseCase,
+    EditRecipientUseCase,
+    FetchDeliverymanUseCase,
+    DeleteRecipientUseCase,
     AuthenticateAdministratorUseCase,
     AuthenticateDeliverymanUseCase,
   ],

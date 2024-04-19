@@ -39,11 +39,40 @@ export class PrismaRecipientRepository implements RecipientRepository {
     return PrismaRecipientMapper.toDomain(recipient)
   }
 
-  delete(recipient: Recipient): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(recipient: Recipient): Promise<void> {
+    await this.prisma.recipient.delete({
+      where: { id: recipient.id.toString() },
+    })
   }
 
-  save(recipient: Recipient): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(recipient: Recipient) {
+    const data = PrismaRecipientMapper.toPrisma(recipient)
+
+    await this.prisma.$transaction(async (tx) => {
+      const recipientUpdated = await tx.recipient.update({
+        where: { id: data.id },
+        data: {
+          name: data.name,
+          document: data.document,
+        },
+      })
+
+      await tx.address.update({
+        where: { id: recipientUpdated.addressId },
+        data: {
+          city: recipient.address.city,
+          street: recipient.address.street,
+          state: recipient.address.state,
+          zipCode: recipient.address.zipCode,
+          latitude: recipient.address.latitude,
+          longitude: recipient.address.longitude,
+        },
+      })
+    })
+
+    await this.prisma.recipient.update({
+      where: { id: recipient.id.toString() },
+      data,
+    })
   }
 }

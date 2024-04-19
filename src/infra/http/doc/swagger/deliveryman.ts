@@ -36,6 +36,23 @@ export class DeliverymanBody {
   address: Address
 }
 
+export class DeliverymanBodyResponse {
+  @ApiProperty()
+  id: string
+
+  @ApiProperty()
+  name: string
+
+  @ApiProperty()
+  document: string
+
+  @ApiProperty()
+  createdAt: Date
+
+  @ApiProperty()
+  updatedAt: Date
+}
+
 export class EditDeliverymanBody extends PickType(DeliverymanBody, [
   'password',
   'address',

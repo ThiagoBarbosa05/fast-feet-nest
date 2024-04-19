@@ -4,6 +4,7 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { RecipientRepository } from '../repositories/recipient'
 import { Document } from '../../enterprise/entities/value-objects.ts/document'
 import { InvalidDocumentError } from './errors/invalid-document-error'
+import { Injectable } from '@nestjs/common'
 
 interface EditRecipientUseCaseRequest {
   recipientId: string
@@ -17,6 +18,7 @@ type EditRecipientUseCaseResponse = Either<
   object
 >
 
+@Injectable()
 export class EditRecipientUseCase {
   constructor(private recipientRepository: RecipientRepository) {}
 
