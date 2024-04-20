@@ -1,7 +1,6 @@
 import {
   FindManyNearDeliverymanParams,
   ListManyByDeliverymanIdParams,
-  ListManyByRecipientIdParams,
   OrderRepository,
 } from '@/domain/shipping-company/application/repositories/order'
 import { Injectable } from '@nestjs/common'
@@ -13,6 +12,7 @@ import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {
   constructor(private prisma: PrismaService) {}
+
   async create(order: Order): Promise<void> {
     const data = PrismaOrderMapper.toPrisma(order)
 
@@ -38,13 +38,6 @@ export class PrismaOrderRepository implements OrderRepository {
     return order.map(PrismaOrderMapper.toDomain)
   }
 
-  listManyByRecipientId({
-    recipientId,
-    page,
-  }: ListManyByRecipientIdParams): Promise<Order[]> {
-    throw new Error('Method not implemented.')
-  }
-
   findById(orderId: string): Promise<Order> {
     throw new Error('Method not implemented.')
   }
@@ -55,6 +48,18 @@ export class PrismaOrderRepository implements OrderRepository {
 
   delete(order: Order): Promise<void> {
     throw new Error('Method not implemented.')
+  }
+
+  async getOrderByRecipientId(recipientId: string) {
+    const order = await this.prisma.order.findFirst({
+      where: {
+        recipientId,
+      },
+    })
+
+    if (!order) return null
+
+    return PrismaOrderMapper.toDomain(order)
   }
 
   findManyNearDeliveryman(

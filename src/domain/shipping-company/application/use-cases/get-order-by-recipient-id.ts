@@ -2,6 +2,7 @@ import { Either, left, right } from '@/core/either'
 import { Order } from '../../enterprise/entities/orders'
 import { OrderRepository } from '../repositories/order'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 export interface GetOrdersByRecipientIdUseCaseRequest {
   recipientId: string
@@ -14,6 +15,7 @@ type GetOrdersByRecipientIdUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class GetOrderByRecipientIdUseCase {
   constructor(private orderRepository: OrderRepository) {}
 

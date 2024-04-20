@@ -25,6 +25,8 @@ import { FetchDeliverymanController } from './controllers/fetch-deliveryman.cont
 import { FetchDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/fetch-deliveryman'
 import { FetchOrdersByDeliverymanIdController } from './controllers/fetch-orders-by-deliveryman-id.controller'
 import { FetchOrdersByDeliverymanIdUseCase } from '@/domain/shipping-company/application/use-cases/fetch-orders-by-deliveryman-id'
+import { GetOrderByRecipientIdController } from './controllers/get-order-by-delivery-id.controller'
+import { GetOrderByRecipientIdUseCase } from '@/domain/shipping-company/application/use-cases/get-order-by-recipient-id'
 
 @Module({
   imports: [CryptographyModule, DatabaseModule],
@@ -40,6 +42,7 @@ import { FetchOrdersByDeliverymanIdUseCase } from '@/domain/shipping-company/app
     EditRecipientController,
     FetchDeliverymanController,
     FetchOrdersByDeliverymanIdController,
+    GetOrderByRecipientIdController,
     ListController,
   ],
   providers: [
@@ -52,6 +55,7 @@ import { FetchOrdersByDeliverymanIdUseCase } from '@/domain/shipping-company/app
     EditRecipientUseCase,
     FetchDeliverymanUseCase,
     FetchOrdersByDeliverymanIdUseCase,
+    GetOrderByRecipientIdUseCase,
     DeleteRecipientUseCase,
     AuthenticateAdministratorUseCase,
     AuthenticateDeliverymanUseCase,
