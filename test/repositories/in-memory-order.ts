@@ -1,7 +1,6 @@
 import {
   FindManyNearDeliverymanParams,
   ListManyByDeliverymanIdParams,
-  ListManyByRecipientIdParams,
   OrderRepository,
 } from '@/domain/shipping-company/application/repositories/order'
 import { Order } from '@/domain/shipping-company/enterprise/entities/orders'
@@ -33,17 +32,16 @@ export class InMemoryOrderRepository implements OrderRepository {
     return orders
   }
 
-  async listManyByRecipientId({
-    recipientId,
-    page,
-  }: ListManyByRecipientIdParams) {
-    const orders = this.items
-      .filter((item) => item.recipientId.toString() === recipientId)
-      .slice((page - 1) * 20, page * 20)
+  async getOrderByRecipientId(recipientId: string) {
+    const order = this.items.find(
+      (item) => item.recipientId.toString() === recipientId,
+    )
 
-    if (!orders) return null
+    if (!order) {
+      return null
+    }
 
-    return orders
+    return order
   }
 
   async findById(orderId: string) {
