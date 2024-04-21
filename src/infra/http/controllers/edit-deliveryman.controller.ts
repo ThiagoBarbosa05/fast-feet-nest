@@ -12,7 +12,7 @@ import {
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { ResourceNotFoundError } from '@/domain/shipping-company/application/use-cases/errors/resource-not-found-error'
-import { EditDeliverymanBody } from '../doc/swagger/deliveryman'
+import { EditDeliverymanBody } from './doc/swagger/deliveryman'
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,

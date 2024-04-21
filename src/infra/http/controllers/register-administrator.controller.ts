@@ -18,7 +18,7 @@ import {
   ApiBody,
   ApiConflictResponse,
 } from '@nestjs/swagger'
-import { AdministratorBody } from '../doc/swagger/administrator'
+import { AdministratorBody } from './doc/swagger/administrator'
 
 const registerAdministratorBodySchema = z.object({
   name: z.string(),

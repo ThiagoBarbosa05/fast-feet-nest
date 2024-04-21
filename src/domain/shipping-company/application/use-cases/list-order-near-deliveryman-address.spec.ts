@@ -5,22 +5,43 @@ import { InMemoryOrderRepository } from 'test/repositories/in-memory-order'
 import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient'
 import { ListOrderNearDeliverymanAddressUseCase } from './list-order-near-deliveryman-address'
 import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
+import { InMemoryDeliverymanRepository } from 'test/repositories/in-memory-deliveryman'
+import { makeDeliveryman } from 'test/factories/make-deliveryman'
 
 let inMemoryRecipientRepository: InMemoryRecipientRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
+let inMemoryDeliverymanRepository: InMemoryDeliverymanRepository
 let sut: ListOrderNearDeliverymanAddressUseCase
 
 describe('List orders near the deliveryman', () => {
   beforeEach(() => {
     inMemoryRecipientRepository = new InMemoryRecipientRepository()
+    inMemoryDeliverymanRepository = new InMemoryDeliverymanRepository()
+
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryRecipientRepository,
     )
 
-    sut = new ListOrderNearDeliverymanAddressUseCase(inMemoryOrderRepository)
+    sut = new ListOrderNearDeliverymanAddressUseCase(
+      inMemoryOrderRepository,
+      inMemoryDeliverymanRepository,
+    )
   })
 
   it('should be able to list orders near the deliveryman', async () => {
+    const deliveryman = makeDeliveryman({
+      address: new Address(
+        'rua do céu',
+        'Rio de Janeiro',
+        'RJ',
+        '28951730',
+        -22.761159143445216,
+        -41.89717724772721,
+      ),
+    })
+
+    inMemoryDeliverymanRepository.items.push(deliveryman)
+
     const addressNearby = new Address(
       'Av. José Bento Ribeiro Dantas',
       'Buzios',
@@ -38,17 +59,13 @@ describe('List orders near the deliveryman', () => {
       -22.967091949002167,
       -42.026875242193924,
     )
-
     const recipientWithAddressNearby = makeRecipient({
       address: addressNearby,
-      orderId: new UniqueEntityID('order-1'),
     })
 
     const recipientWithAddressFarAway = makeRecipient({
       address: addressFarAway,
-      orderId: new UniqueEntityID('order-2'),
     })
-
     await inMemoryRecipientRepository.create(recipientWithAddressNearby)
     await inMemoryRecipientRepository.create(recipientWithAddressFarAway)
 
@@ -69,13 +86,11 @@ describe('List orders near the deliveryman', () => {
       },
       new UniqueEntityID('order-2'),
     )
-
     await inMemoryOrderRepository.create(orderToList)
     await inMemoryOrderRepository.create(orderNotToList)
 
     const result = await sut.execute({
-      latitude: -22.773281865476424,
-      longitude: -41.91342668309329,
+      deliverymanId: deliveryman.id.toString(),
     })
 
     expect(result.isRight()).toBe(true)

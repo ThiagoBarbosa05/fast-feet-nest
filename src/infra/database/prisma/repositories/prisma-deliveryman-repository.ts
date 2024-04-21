@@ -53,11 +53,17 @@ export class PrismaDeliverymanRepository implements DeliverymanRepository {
       where: {
         id: deliverymanId,
       },
+      include: {
+        address: true,
+      },
     })
 
     if (!deliveryman) return null
 
-    return PrismaDeliverymanMapper.toDomain(deliveryman)
+    return PrismaDeliverymanMapper.toDomainWithAddress({
+      user: deliveryman,
+      address: deliveryman.address,
+    })
   }
 
   async save(deliveryman: Deliveryman) {

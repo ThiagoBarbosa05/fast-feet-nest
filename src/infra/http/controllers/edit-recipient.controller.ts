@@ -14,7 +14,7 @@ import { Document } from '@/domain/shipping-company/enterprise/entities/value-ob
 import { ResourceNotFoundError } from '@/domain/shipping-company/application/use-cases/errors/resource-not-found-error'
 import { InvalidDocumentError } from '@/domain/shipping-company/application/use-cases/errors/invalid-document-error'
 import { Roles } from '@/infra/auth/roles.decorator'
-import { RecipientBody } from '../doc/swagger/recipient'
+import { RecipientBody } from './doc/swagger/recipient'
 import {
   ApiBody,
   ApiUnauthorizedResponse,

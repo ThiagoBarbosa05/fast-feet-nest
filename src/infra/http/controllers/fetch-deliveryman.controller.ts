@@ -9,7 +9,7 @@ import {
   ApiUnauthorizedResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger'
-import { DeliverymanResponseBody } from '../doc/swagger/deliveryman'
+import { DeliverymanResponseBody } from './doc/swagger/deliveryman'
 
 const pageQuerySchema = z
   .string()

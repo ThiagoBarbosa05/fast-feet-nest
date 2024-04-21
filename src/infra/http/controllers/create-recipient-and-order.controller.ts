@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common'
 import { ApiBadRequestResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger'
 import { z } from 'zod'
-import { RecipientBody } from '../doc/swagger/recipient'
+import { RecipientBody } from './doc/swagger/recipient'
 
 const createRecipientAndOrderBodySchema = z.object({
   name: z.string(),

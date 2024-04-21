@@ -20,7 +20,7 @@ import {
   ApiBody,
   ApiConflictResponse,
 } from '@nestjs/swagger'
-import { DeliverymanBody } from '../doc/swagger/deliveryman'
+import { DeliverymanBody } from './doc/swagger/deliveryman'
 import { DeliverymanAlreadyExistsError } from '@/domain/shipping-company/application/use-cases/errors/deliveryman-already-exists-error'
 
 const registrationDeliverymanBodySchema = z.object({

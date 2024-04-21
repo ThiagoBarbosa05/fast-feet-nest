@@ -3,6 +3,15 @@ import { Recipient } from '@/domain/shipping-company/enterprise/entities/recipie
 import { Document } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/document'
 import { Recipient as PrismaRecipient } from '@prisma/client'
 
+interface AddressToDomain {
+  street: string
+  city: string
+  state: string
+  zipCode: string
+  latitude: number
+  longitude: number
+}
+
 export class PrismaRecipientMapper {
   static toDomain(raw: PrismaRecipient): Recipient {
     return Recipient.create(

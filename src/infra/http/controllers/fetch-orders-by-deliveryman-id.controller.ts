@@ -17,7 +17,7 @@ import {
   ApiBody,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
-import { OrderResponseBody } from '../doc/swagger/order'
+import { OrderResponseBody } from './doc/swagger/order'
 
 const pageQuerySchema = z
   .string()

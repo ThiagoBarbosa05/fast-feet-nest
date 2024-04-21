@@ -8,6 +8,7 @@ import { PrismaService } from '../prisma.service'
 import { Order } from '@/domain/shipping-company/enterprise/entities/orders'
 import { DomainEvents } from '@/core/events/domain-events'
 import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
+import { Prisma, Order as PrismaOrder } from '@prisma/client'
 
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {
@@ -62,9 +63,17 @@ export class PrismaOrderRepository implements OrderRepository {
     return PrismaOrderMapper.toDomain(order)
   }
 
-  findManyNearDeliveryman(
-    params: FindManyNearDeliverymanParams,
-  ): Promise<Order[]> {
-    throw new Error('Method not implemented.')
+  async findManyNearDeliveryman({
+    latitude,
+    longitude,
+  }: FindManyNearDeliverymanParams) {
+    const order = (await this.prisma.$queryRaw<PrismaOrder[]>`
+      SELECT o.*, o.recipient_id AS "recipientId" FROM orders o
+      INNER JOIN recipients r ON o.recipient_id = r.id
+      INNER JOIN address a ON r.address_id = a.id
+      WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 20
+    `) as PrismaOrder[]
+
+    return order.map(PrismaOrderMapper.toDomain)
   }
 }

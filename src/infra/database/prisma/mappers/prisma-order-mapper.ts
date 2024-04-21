@@ -7,11 +7,13 @@ import { Order as PrismaOrder, Prisma } from '@prisma/client'
 
 export class PrismaOrderMapper {
   static toDomain(raw: PrismaOrder): Order {
-    return Order.create(
+    const order = Order.create(
       {
         deliveryStatus: raw.deliveryStatus as DeliveryStatus,
         recipientId: new UniqueEntityID(raw.recipientId),
-        deliverymanId: new UniqueEntityID(raw.deliverymanId),
+        deliverymanId: raw.deliverymanId
+          ? new UniqueEntityID(raw.deliverymanId)
+          : null,
         collectedAt: raw.collectedAt,
         deliveredAt: raw.deliveredAt,
         returnedAt: raw.returnedAt,
@@ -20,6 +22,7 @@ export class PrismaOrderMapper {
       },
       new UniqueEntityID(raw.id),
     )
+    return order
   }
 
   static toPrisma(order: Order): Prisma.OrderUncheckedCreateInput {

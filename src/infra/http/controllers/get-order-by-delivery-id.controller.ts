@@ -9,7 +9,7 @@ import {
   Param,
 } from '@nestjs/common'
 import { OrderPresenter } from '../presenter/order'
-import { OrderResponseBody } from '../doc/swagger/order'
+import { OrderResponseBody } from './doc/swagger/order'
 import {
   ApiBearerAuth,
   ApiBody,

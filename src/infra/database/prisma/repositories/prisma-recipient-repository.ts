@@ -34,6 +34,9 @@ export class PrismaRecipientRepository implements RecipientRepository {
   async findById(recipientId: string): Promise<Recipient> {
     const recipient = await this.prisma.recipient.findUnique({
       where: { id: recipientId },
+      include: {
+        address: true,
+      },
     })
 
     return PrismaRecipientMapper.toDomain(recipient)

@@ -20,7 +20,7 @@ import {
 import {
   AuthenticateBody,
   AuthenticateResponse,
-} from '../doc/swagger/authenticate'
+} from './doc/swagger/authenticate'
 
 const authenticateBodySchema = z.object({
   document: z.string(),

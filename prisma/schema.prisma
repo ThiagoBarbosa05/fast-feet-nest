@@ -28,7 +28,7 @@ model User {
   updatedAt DateTime? @updatedAt @map("updated_at")
   addressId String?   @map("address_id")
 
-  address Address? @relation(fields: [addressId], references: [id])
+  address Address? @relation(fields: [addressId], references: [id], onDelete: Cascade)
   Order   Order[]
 
   @@map("users")
@@ -45,6 +45,8 @@ model Address {
 
   user      User[]
   Recipient Recipient[]
+
+  @@map("address")
 }
 
 model Recipient {
@@ -52,17 +54,19 @@ model Recipient {
   name         String
   document     String
   addressId    String         @map("address_id")
-  address      Address        @relation(fields: [addressId], references: [id])
+  address      Address        @relation(fields: [addressId], references: [id], onDelete: Cascade)
   Order        Order[]
   createdAt    DateTime?      @default(now()) @map("created_at")
   updatedAt    DateTime?      @updatedAt @map("updated_at")
   Notification Notification[]
+
+  @@map("recipients")
 }
 
 model Order {
   id             String    @id @default(uuid())
   recipientId    String    @map("recipient_id")
-  deliveryStatus String
+  deliveryStatus String    @map("delivery_status")
   collectedAt    DateTime? @map("collected_at")
   deliveredAt    DateTime? @map("delivered_at")
   returnedAt     DateTime? @map("returned_at")
@@ -71,6 +75,8 @@ model Order {
   deliverymanId  String?   @map("deliveryman_id")
   User           User?     @relation(fields: [deliverymanId], references: [id], onDelete: SetNull)
   recipient      Recipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@map("orders")
 }
 
 model Notification {
@@ -81,4 +87,6 @@ model Notification {
   content     String
   readAt      DateTime? @map("read_at")
   createdAt   DateTime? @default(now()) @map("created_at")
+
+  @@map("notifications")
 }
