@@ -30,6 +30,7 @@ export class PrismaOrderMapper {
       id: order.id.toString(),
       deliveryStatus: order.deliveryStatus,
       recipientId: order.recipientId.toString(),
+      deliverymanId: order.deliverymanId?.toString() ?? null,
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
     }

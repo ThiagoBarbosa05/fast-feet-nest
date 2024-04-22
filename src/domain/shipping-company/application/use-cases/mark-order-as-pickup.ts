@@ -2,6 +2,7 @@ import { Either, left, right } from '@/core/either'
 import { OrderRepository } from '../repositories/order'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
+import { Injectable } from '@nestjs/common'
 
 export interface MarkOrderAsPickupUseCaseRequest {
   deliverymanId: string
@@ -10,6 +11,7 @@ export interface MarkOrderAsPickupUseCaseRequest {
 
 type MarkOrderAsPickupUseCaseResponse = Either<ResourceNotFoundError, object>
 
+@Injectable()
 export class MarkOrderAsPickupUseCase {
   constructor(private orderRepository: OrderRepository) {}
 
@@ -25,6 +27,8 @@ export class MarkOrderAsPickupUseCase {
 
     orderForPickup.deliverymanId = new UniqueEntityID(deliverymanId)
     orderForPickup.deliveryStatus = 'collected'
+
+    console.log(orderForPickup)
 
     await this.orderRepository.save(orderForPickup)
 

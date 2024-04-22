@@ -8,7 +8,7 @@ import { PrismaService } from '../prisma.service'
 import { Order } from '@/domain/shipping-company/enterprise/entities/orders'
 import { DomainEvents } from '@/core/events/domain-events'
 import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
-import { Prisma, Order as PrismaOrder } from '@prisma/client'
+import { Order as PrismaOrder } from '@prisma/client'
 
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {
@@ -39,16 +39,33 @@ export class PrismaOrderRepository implements OrderRepository {
     return order.map(PrismaOrderMapper.toDomain)
   }
 
-  findById(orderId: string): Promise<Order> {
-    throw new Error('Method not implemented.')
+  async findById(orderId: string) {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id: orderId,
+      },
+    })
+
+    return PrismaOrderMapper.toDomain(order)
   }
 
-  save(order: Order): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(order: Order) {
+    const data = PrismaOrderMapper.toPrisma(order)
+
+    await this.prisma.order.update({
+      where: {
+        id: order.id.toString(),
+      },
+      data,
+    })
   }
 
-  delete(order: Order): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(order: Order) {
+    await this.prisma.order.delete({
+      where: {
+        id: order.id.toString(),
+      },
+    })
   }
 
   async getOrderByRecipientId(recipientId: string) {
