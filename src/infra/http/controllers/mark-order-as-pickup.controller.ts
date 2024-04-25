@@ -1,8 +1,9 @@
+import { ResourceNotFoundError } from '@/domain/shipping-company/application/use-cases/errors/resource-not-found-error'
 import { MarkOrderAsPickupUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-pickup'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { Roles } from '@/infra/auth/roles.decorator'
-import { Controller, Param, Put } from '@nestjs/common'
+import { BadRequestException, Controller, Param, Put } from '@nestjs/common'
 
 @Controller('/orders/:orderId')
 @Roles(['ADMINISTRATOR'])
@@ -19,6 +20,15 @@ export class MarkOrderAsPickupController {
       orderId,
     })
 
-    console.log(result)
+    if (result.isLeft()) {
+      const error = result.value
+
+      switch (error.constructor) {
+        case ResourceNotFoundError:
+          throw new BadRequestException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
+    }
   }
 }

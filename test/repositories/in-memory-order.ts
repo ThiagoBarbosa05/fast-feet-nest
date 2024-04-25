@@ -7,11 +7,15 @@ import { Order } from '@/domain/shipping-company/enterprise/entities/orders'
 import { InMemoryRecipientRepository } from './in-memory-recipient'
 import { AddressService } from '@/domain/shipping-company/application/services/address-service'
 import { DomainEvents } from '@/core/events/domain-events'
+import { OrderAttachmentsRepository } from '@/domain/shipping-company/application/repositories/order-attachments'
 
 export class InMemoryOrderRepository implements OrderRepository {
   public items: Order[] = []
 
-  constructor(private recipientRepository: InMemoryRecipientRepository) {}
+  constructor(
+    private recipientRepository: InMemoryRecipientRepository,
+    private orderAttachmentsRepository: OrderAttachmentsRepository,
+  ) {}
 
   async create(order: Order) {
     this.items.push(order)
@@ -58,6 +62,15 @@ export class InMemoryOrderRepository implements OrderRepository {
     )
 
     this.items[itemIndex] = order
+
+    if (order.attachments.currentItems.length > 0) {
+      await this.orderAttachmentsRepository.createMany(
+        order.attachments.getItems(),
+      )
+      await this.orderAttachmentsRepository.deleteMany(
+        order.attachments.getRemovedItems(),
+      )
+    }
 
     DomainEvents.dispatchEventsForAggregate(order.id)
   }

@@ -31,9 +31,12 @@ import { ListOrderNearDeliverymanAddressController } from './controllers/list-or
 import { ListOrderNearDeliverymanAddressUseCase } from '@/domain/shipping-company/application/use-cases/list-order-near-deliveryman-address'
 import { MarkOrderAsPickupController } from './controllers/mark-order-as-pickup.controller'
 import { MarkOrderAsPickupUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-pickup'
+import { UploadAttachmentController } from './controllers/upload-attachments.controller'
+import { UploadAndCreateAttachmentUseCase } from '@/domain/shipping-company/application/use-cases/upload-and-create-attachment'
+import { StorageModule } from '../storage/storage.module'
 
 @Module({
-  imports: [CryptographyModule, DatabaseModule],
+  imports: [CryptographyModule, DatabaseModule, StorageModule],
   controllers: [
     RegisterAdministratorController,
     RegisterDeliverymanController,
@@ -49,6 +52,7 @@ import { MarkOrderAsPickupUseCase } from '@/domain/shipping-company/application/
     GetOrderByRecipientIdController,
     ListOrderNearDeliverymanAddressController,
     MarkOrderAsPickupController,
+    UploadAttachmentController,
     ListController,
   ],
   providers: [
@@ -65,6 +69,7 @@ import { MarkOrderAsPickupUseCase } from '@/domain/shipping-company/application/
     GetOrderByRecipientIdUseCase,
     DeleteRecipientUseCase,
     MarkOrderAsPickupUseCase,
+    UploadAndCreateAttachmentUseCase,
     AuthenticateAdministratorUseCase,
     AuthenticateDeliverymanUseCase,
   ],

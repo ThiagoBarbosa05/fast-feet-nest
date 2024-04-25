@@ -9,17 +9,19 @@ import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryRecipientRepository: InMemoryRecipientRepository
 let inMemoryOrderAttachmentsRepository: InMemoryOrderAttachmentsRepository
+
 let sut: EditOrderUseCase
 
 describe('Edit order', () => {
   beforeEach(() => {
     inMemoryRecipientRepository = new InMemoryRecipientRepository()
+    inMemoryOrderAttachmentsRepository =
+      new InMemoryOrderAttachmentsRepository()
 
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryRecipientRepository,
+      inMemoryOrderAttachmentsRepository,
     )
-    inMemoryOrderAttachmentsRepository =
-      new InMemoryOrderAttachmentsRepository()
 
     sut = new EditOrderUseCase(
       inMemoryOrderRepository,

@@ -76,6 +76,7 @@ model Order {
   User           User?     @relation(fields: [deliverymanId], references: [id], onDelete: SetNull)
   recipient      Recipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
 
+  attachments Attachment[]
   @@map("orders")
 }
 
@@ -89,4 +90,14 @@ model Notification {
   createdAt   DateTime? @default(now()) @map("created_at")
 
   @@map("notifications")
+}
+
+model Attachment {
+  id String @id @default(uuid())
+  title String
+  url String
+  orderId String?
+  order Order? @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("attachments")
 }

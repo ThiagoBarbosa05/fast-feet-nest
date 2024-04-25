@@ -13,4 +13,16 @@ export class InMemoryOrderAttachmentsRepository
 
     return orderAttachments
   }
+
+  async createMany(attachments: OrderAttachments[]): Promise<void> {
+    this.items.push(...attachments)
+  }
+
+  async deleteMany(attachments: OrderAttachments[]): Promise<void> {
+    const orderAttachments = this.items.filter((item) => {
+      return !attachments.some((attachment) => attachment.equals(item))
+    })
+
+    this.items = orderAttachments
+  }
 }

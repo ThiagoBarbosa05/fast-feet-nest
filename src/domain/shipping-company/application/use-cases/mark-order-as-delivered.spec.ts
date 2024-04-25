@@ -4,16 +4,23 @@ import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipie
 import { makeOrder } from 'test/factories/make-order'
 import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
 import { NotAllowedError } from './errors/not-allowed-error'
+import { InMemoryOrderAttachmentsRepository } from 'test/repositories/in-memory-order-attchments'
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryRecipientRepository: InMemoryRecipientRepository
+
+let inMemoryOrderAttachmentsRepository: InMemoryOrderAttachmentsRepository
 let sut: MarkOrderAsDeliveredUseCase
 
 describe('Mark Order as Delivered', () => {
   beforeEach(() => {
     inMemoryRecipientRepository = new InMemoryRecipientRepository()
+    inMemoryOrderAttachmentsRepository =
+      new InMemoryOrderAttachmentsRepository()
+
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryRecipientRepository,
+      inMemoryOrderAttachmentsRepository,
     )
     sut = new MarkOrderAsDeliveredUseCase(inMemoryOrderRepository)
   })
@@ -76,5 +83,32 @@ describe('Mark Order as Delivered', () => {
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(NotAllowedError)
+  })
+
+  it('should persist attachments when the deliveryman delivers the order', async () => {
+    const order = makeOrder({
+      deliverymanId: new UniqueEntityID('deliveryman-1'),
+    })
+
+    await inMemoryOrderRepository.create(order)
+
+    const result = await sut.execute({
+      deliverymanId: 'deliveryman-1',
+      orderId: order.id.toString(),
+      attachmentsIds: ['1', '2'],
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryOrderAttachmentsRepository.items).toHaveLength(2)
+    expect(inMemoryOrderAttachmentsRepository.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          attachmentId: new UniqueEntityID('1'),
+        }),
+        expect.objectContaining({
+          attachmentId: new UniqueEntityID('1'),
+        }),
+      ]),
+    )
   })
 })
