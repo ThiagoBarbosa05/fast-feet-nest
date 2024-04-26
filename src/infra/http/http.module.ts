@@ -34,6 +34,8 @@ import { MarkOrderAsPickupUseCase } from '@/domain/shipping-company/application/
 import { UploadAttachmentController } from './controllers/upload-attachments.controller'
 import { UploadAndCreateAttachmentUseCase } from '@/domain/shipping-company/application/use-cases/upload-and-create-attachment'
 import { StorageModule } from '../storage/storage.module'
+import { MarkOrderAsDeliveredController } from './controllers/mark-order-as-delivered.controller'
+import { MarkOrderAsDeliveredUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-delivered'
 
 @Module({
   imports: [CryptographyModule, DatabaseModule, StorageModule],
@@ -53,6 +55,7 @@ import { StorageModule } from '../storage/storage.module'
     ListOrderNearDeliverymanAddressController,
     MarkOrderAsPickupController,
     UploadAttachmentController,
+    MarkOrderAsDeliveredController,
     ListController,
   ],
   providers: [
@@ -71,6 +74,7 @@ import { StorageModule } from '../storage/storage.module'
     MarkOrderAsPickupUseCase,
     UploadAndCreateAttachmentUseCase,
     AuthenticateAdministratorUseCase,
+    MarkOrderAsDeliveredUseCase,
     AuthenticateDeliverymanUseCase,
   ],
 })

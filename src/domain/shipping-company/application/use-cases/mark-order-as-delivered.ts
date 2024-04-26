@@ -5,6 +5,7 @@ import { NotAllowedError } from './errors/not-allowed-error'
 import { OrderAttachments } from '../../enterprise/entities/order-attachments'
 import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
 import { OrderAttachmentsList } from '../../enterprise/entities/order-attachments-list'
+import { Injectable } from '@nestjs/common'
 
 export interface MarkOrderAsDeliveredUseCaseRequest {
   deliverymanId: string
@@ -17,6 +18,7 @@ type MarkOrderAsDeliveredUseCaseResponse = Either<
   object
 >
 
+@Injectable()
 export class MarkOrderAsDeliveredUseCase {
   constructor(private ordersRepository: OrderRepository) {}
 

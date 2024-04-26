@@ -28,8 +28,6 @@ export class MarkOrderAsPickupUseCase {
     orderForPickup.deliverymanId = new UniqueEntityID(deliverymanId)
     orderForPickup.deliveryStatus = 'collected'
 
-    console.log(orderForPickup)
-
     await this.orderRepository.save(orderForPickup)
 
     return right({})

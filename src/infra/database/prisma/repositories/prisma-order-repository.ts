@@ -9,10 +9,14 @@ import { Order } from '@/domain/shipping-company/enterprise/entities/orders'
 import { DomainEvents } from '@/core/events/domain-events'
 import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
 import { Order as PrismaOrder } from '@prisma/client'
+import { OrderAttachmentsRepository } from '@/domain/shipping-company/application/repositories/order-attachments'
 
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private orderAttachmentsRepository: OrderAttachmentsRepository,
+  ) {}
 
   async create(order: Order): Promise<void> {
     const data = PrismaOrderMapper.toPrisma(order)
@@ -52,12 +56,18 @@ export class PrismaOrderRepository implements OrderRepository {
   async save(order: Order) {
     const data = PrismaOrderMapper.toPrisma(order)
 
-    await this.prisma.order.update({
-      where: {
-        id: order.id.toString(),
-      },
-      data,
-    })
+    Promise.all([
+      await this.prisma.order.update({
+        where: {
+          id: order.id.toString(),
+        },
+        data,
+      }),
+      this.orderAttachmentsRepository.createMany(order.attachments.getItems()),
+      this.orderAttachmentsRepository.deleteMany(
+        order.attachments.getRemovedItems(),
+      ),
+    ])
 
     DomainEvents.dispatchEventsForAggregate(order.id)
   }

@@ -96,7 +96,7 @@ model Attachment {
   id String @id @default(uuid())
   title String
   url String
-  orderId String?
+  orderId String? @map("order_id")
   order Order? @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   @@map("attachments")
