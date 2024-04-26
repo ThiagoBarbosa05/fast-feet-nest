@@ -1,7 +1,5 @@
 import { ResourceNotFoundError } from '@/domain/shipping-company/application/use-cases/errors/resource-not-found-error'
-import { MarkOrderAsPickupUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-pickup'
-import { CurrentUser } from '@/infra/auth/current-user-decorator'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
+import { MarkOrderAsReturnedUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-returned'
 import { Roles } from '@/infra/auth/roles.decorator'
 import { BadRequestException, Controller, Param, Put } from '@nestjs/common'
 import {
@@ -11,10 +9,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
 
-@Controller('/order/:orderId/pickup')
+@Controller('/order/:orderId/return')
 @Roles(['DELIVERYMAN'])
-export class MarkOrderAsPickupController {
-  constructor(private markOrderAsPickup: MarkOrderAsPickupUseCase) {}
+export class MarkOrderAsReturnedController {
+  constructor(private markOrderAsReturned: MarkOrderAsReturnedUseCase) {}
 
   @Put()
   // Swagger Documentation
@@ -23,12 +21,8 @@ export class MarkOrderAsPickupController {
   @ApiUnauthorizedResponse()
   @ApiBearerAuth()
   // Swagger Documentation
-  async handle(
-    @CurrentUser() user: UserPayload,
-    @Param('orderId') orderId: string,
-  ) {
-    const result = await this.markOrderAsPickup.execute({
-      deliverymanId: user.sub,
+  async handle(@Param('orderId') orderId: string) {
+    const result = await this.markOrderAsReturned.execute({
       orderId,
     })
 

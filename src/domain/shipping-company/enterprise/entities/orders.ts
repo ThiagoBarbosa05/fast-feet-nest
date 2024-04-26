@@ -40,7 +40,6 @@ export class Order extends AggregateRoot<OrderProps> {
         this.addDomainEvent(new UpdateDeliveryStatusEvent(this))
         break
     }
-    this.touch()
   }
 
   get deliverymanId() {

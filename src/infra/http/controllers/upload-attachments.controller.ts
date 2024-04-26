@@ -13,6 +13,16 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger'
+import { AttachmentData, AttachmentResponse } from './doc/swagger/attachments'
 
 @Controller('/attachments')
 @Roles(['DELIVERYMAN'])
@@ -24,6 +34,21 @@ export class UploadAttachmentController {
   @Post()
   @HttpCode(201)
   @UseInterceptors(FileInterceptor('file'))
+
+  // Swagger Documentation
+  @ApiTags('Fast Feet')
+  @ApiBadRequestResponse()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'delivery images',
+    type: AttachmentData,
+  })
+  @ApiResponse({
+    type: AttachmentResponse,
+  })
+  @ApiUnauthorizedResponse()
+  @ApiBearerAuth()
+  // Swagger Documentation
   async handle(
     @UploadedFile(
       new ParseFilePipe({

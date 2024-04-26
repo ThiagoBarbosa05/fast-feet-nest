@@ -9,7 +9,7 @@ import request from 'supertest'
 import { DeliverymanFactory } from 'test/factories/make-deliveryman'
 import { RecipientFactory } from 'test/factories/make-recipient'
 
-describe('Mark order as pickup (E2E)', () => {
+describe('Mark order as returned (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let recipientFactory: RecipientFactory
@@ -32,7 +32,7 @@ describe('Mark order as pickup (E2E)', () => {
     await app.init()
   })
 
-  it('[PUT] /order/:orderId/pickup', async () => {
+  it('[PUT] /order/:orderId/return', async () => {
     const deliveryman = await deliverymanFactory.makePrismaDeliveryman()
     const recipient = await recipientFactory.makePrismaRecipient()
 
@@ -48,7 +48,7 @@ describe('Mark order as pickup (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .put(`/order/${order.id}/pickup`)
+      .put(`/order/${order.id}/return`)
       .set('Authorization', `Bearer ${accessToken}`)
 
     const orderUpdated = await prisma.order.findFirst({
@@ -56,6 +56,6 @@ describe('Mark order as pickup (E2E)', () => {
     })
 
     expect(response.statusCode).toEqual(200)
-    expect(orderUpdated.deliveryStatus).toEqual('collected')
+    expect(orderUpdated.deliveryStatus).toEqual('returned')
   })
 })

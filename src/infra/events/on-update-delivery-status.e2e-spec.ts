@@ -52,7 +52,7 @@ describe('On delivery status Updated (E2E)', () => {
     })
 
     await request(app.getHttpServer())
-      .put(`/orders/${order.id}`)
+      .put(`/order/${order.id}/pickup`)
       .set('Authorization', `Bearer ${accessToken}`)
 
     await waitFor(async () => {

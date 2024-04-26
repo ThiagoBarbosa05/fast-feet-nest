@@ -35,7 +35,7 @@ describe('Mark order as delivered (E2E)', () => {
     await app.init()
   })
 
-  it('[PUT] /order/:orderId', async () => {
+  it('[PUT] /order/:orderId/delivery', async () => {
     const deliveryman = await deliverymanFactory.makePrismaDeliveryman()
     const recipient = await recipientFactory.makePrismaRecipient()
 
@@ -51,14 +51,14 @@ describe('Mark order as delivered (E2E)', () => {
     })
 
     await request(app.getHttpServer())
-      .put(`/orders/${order.id}`)
+      .put(`/order/${order.id}/pickup`)
       .set('Authorization', `Bearer ${accessToken}`)
 
     const attachmentsCreated = await attachmentFactory.makePrismaAttachment()
     const attachmentsId = attachmentsCreated.id.toValue()
 
     const response = await request(app.getHttpServer())
-      .put(`/order/${order.id}`)
+      .put(`/order/${order.id}/delivery`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         attachments: [attachmentsId],

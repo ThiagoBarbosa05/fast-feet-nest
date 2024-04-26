@@ -61,7 +61,10 @@ export class PrismaOrderRepository implements OrderRepository {
         where: {
           id: order.id.toString(),
         },
-        data,
+        data: {
+          ...data,
+          deliverymanId: data.deliverymanId,
+        },
       }),
       this.orderAttachmentsRepository.createMany(order.attachments.getItems()),
       this.orderAttachmentsRepository.deleteMany(

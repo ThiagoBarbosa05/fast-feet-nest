@@ -15,6 +15,14 @@ import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { ResourceNotFoundError } from '@/domain/shipping-company/application/use-cases/errors/resource-not-found-error'
 import { NotAllowedError } from '@/domain/shipping-company/application/use-cases/errors/not-allowed-error'
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger'
+import { AttachmentIdBody } from './doc/swagger/attachments'
 
 const markOrderAsDeliveredBodySchema = z.object({
   attachments: z.array(z.string().uuid()),
@@ -26,13 +34,20 @@ type MarkOrderAsDeliveredBodySchema = z.infer<
   typeof markOrderAsDeliveredBodySchema
 >
 
-@Controller('/order/:orderId')
+@Controller('/order/:orderId/delivery')
 @Roles(['DELIVERYMAN'])
 export class MarkOrderAsDeliveredController {
   constructor(private markOrderAsDelivered: MarkOrderAsDeliveredUseCase) {}
 
   @Put()
   @HttpCode(201)
+  // Swagger Documentation
+  @ApiTags('Fast Feet')
+  @ApiBody({ type: [AttachmentIdBody] })
+  @ApiBadRequestResponse()
+  @ApiUnauthorizedResponse()
+  @ApiBearerAuth()
+  // Swagger Documentation
   async handle(
     @CurrentUser() user: UserPayload,
     @Param('orderId') orderId: string,

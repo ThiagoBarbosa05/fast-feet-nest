@@ -6,7 +6,6 @@ import { DatabaseModule } from '../database/database.module'
 import { RegisterDeliverymanController } from './controllers/register-deliveryman.controller'
 import { RegisterDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/register-deliveryman'
 import { AuthenticateController } from './controllers/authenticate.controller'
-import { ListController } from './controllers/list.controller'
 import { AuthenticateDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/authenticate-deliveryman'
 import { AuthenticateAdministratorController } from './controllers/authenticate-administrator.controller'
 import { AuthenticateAdministratorUseCase } from '@/domain/shipping-company/application/use-cases/authenticate-administrator'
@@ -36,6 +35,8 @@ import { UploadAndCreateAttachmentUseCase } from '@/domain/shipping-company/appl
 import { StorageModule } from '../storage/storage.module'
 import { MarkOrderAsDeliveredController } from './controllers/mark-order-as-delivered.controller'
 import { MarkOrderAsDeliveredUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-delivered'
+import { MarkOrderAsReturnedController } from './controllers/mark-order-as-returned.controller'
+import { MarkOrderAsReturnedUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-returned'
 
 @Module({
   imports: [CryptographyModule, DatabaseModule, StorageModule],
@@ -55,8 +56,8 @@ import { MarkOrderAsDeliveredUseCase } from '@/domain/shipping-company/applicati
     ListOrderNearDeliverymanAddressController,
     MarkOrderAsPickupController,
     UploadAttachmentController,
+    MarkOrderAsReturnedController,
     MarkOrderAsDeliveredController,
-    ListController,
   ],
   providers: [
     RegisterAdministratorUseCase,
@@ -75,6 +76,7 @@ import { MarkOrderAsDeliveredUseCase } from '@/domain/shipping-company/applicati
     UploadAndCreateAttachmentUseCase,
     AuthenticateAdministratorUseCase,
     MarkOrderAsDeliveredUseCase,
+    MarkOrderAsReturnedUseCase,
     AuthenticateDeliverymanUseCase,
   ],
 })
