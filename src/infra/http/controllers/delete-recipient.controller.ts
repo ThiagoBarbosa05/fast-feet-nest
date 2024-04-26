@@ -12,6 +12,7 @@ import {
   ApiUnauthorizedResponse,
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiTags,
 } from '@nestjs/swagger'
 
 @Controller('/recipient/:recipientId')
@@ -23,6 +24,7 @@ export class DeleteRecipientController {
   @HttpCode(200)
 
   // Swagger Documentation
+  @ApiTags('Fast Feet')
   @ApiUnauthorizedResponse()
   @ApiBadRequestResponse({ description: 'Resource not found.' })
   @ApiBearerAuth()

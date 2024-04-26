@@ -16,6 +16,7 @@ import {
   ApiCreatedResponse,
   ApiUnauthorizedResponse,
   ApiBadRequestResponse,
+  ApiTags,
 } from '@nestjs/swagger'
 import {
   AuthenticateBody,
@@ -40,6 +41,7 @@ export class AuthenticateController {
   @UsePipes(new ZodValidationPipe(authenticateBodySchema))
 
   // Swagger Documentation
+  @ApiTags('Fast Feet')
   @ApiBody({
     type: AuthenticateBody,
   })

@@ -13,6 +13,7 @@ import { OrderResponseBody } from './doc/swagger/order'
 import {
   ApiBearerAuth,
   ApiBody,
+  ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
 
@@ -23,6 +24,7 @@ export class GetOrderByRecipientIdController {
 
   @Get()
   @HttpCode(200)
+  @ApiTags('Fast Feet')
   @ApiBody({ type: OrderResponseBody })
   @ApiUnauthorizedResponse()
   @ApiBearerAuth()

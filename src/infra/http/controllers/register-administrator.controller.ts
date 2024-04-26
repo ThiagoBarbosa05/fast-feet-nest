@@ -17,6 +17,7 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiConflictResponse,
+  ApiTags,
 } from '@nestjs/swagger'
 import { AdministratorBody } from './doc/swagger/administrator'
 
@@ -40,6 +41,7 @@ export class RegisterAdministratorController {
   @UsePipes(new ZodValidationPipe(registerAdministratorBodySchema))
 
   // Swagger Documentation
+  @ApiTags('Fast Feet')
   @ApiBody({ type: AdministratorBody })
   @ApiConflictResponse({ description: 'Administrator already registered.' })
   @ApiBadRequestResponse({ description: 'Invalid document.' })

@@ -15,6 +15,7 @@ import { OrderPresenter } from '../presenter/order'
 import {
   ApiBearerAuth,
   ApiBody,
+  ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
 import { OrderResponseBody } from './doc/swagger/order'
@@ -40,6 +41,7 @@ export class FetchOrdersByDeliverymanIdController {
   @Get()
 
   // Swagger Documentation
+  @ApiTags('Fast Feet')
   @ApiBody({ type: [OrderResponseBody] })
   @ApiUnauthorizedResponse()
   @ApiBearerAuth()

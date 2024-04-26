@@ -15,6 +15,7 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiCreatedResponse,
+  ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
 import {
@@ -43,6 +44,7 @@ export class AuthenticateAdministratorController {
   @ApiBody({
     type: AuthenticateBody,
   })
+  @ApiTags('Fast Feet')
   @ApiCreatedResponse({ type: AuthenticateResponse })
   @ApiUnauthorizedResponse({ description: 'Wrong credentials.' })
   @ApiBadRequestResponse({ description: 'Bad request.' })

@@ -8,6 +8,7 @@ import {
   ApiBody,
   ApiUnauthorizedResponse,
   ApiBearerAuth,
+  ApiTags,
 } from '@nestjs/swagger'
 import { DeliverymanResponseBody } from './doc/swagger/deliveryman'
 
@@ -30,6 +31,7 @@ export class FetchDeliverymanController {
   @Get()
 
   // Swagger Documentation
+  @ApiTags('Fast Feet')
   @ApiBody({ type: [DeliverymanResponseBody] })
   @ApiUnauthorizedResponse()
   @ApiBearerAuth()

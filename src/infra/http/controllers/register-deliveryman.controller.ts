@@ -19,6 +19,7 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiConflictResponse,
+  ApiTags,
 } from '@nestjs/swagger'
 import { DeliverymanBody } from './doc/swagger/deliveryman'
 import { DeliverymanAlreadyExistsError } from '@/domain/shipping-company/application/use-cases/errors/deliveryman-already-exists-error'
@@ -51,6 +52,7 @@ export class RegisterDeliverymanController {
   @UsePipes(new ZodValidationPipe(registrationDeliverymanBodySchema))
 
   // Swagger Documentation
+  @ApiTags('Fast Feet')
   @ApiBody({ type: DeliverymanBody })
   @ApiConflictResponse({ description: 'Deliveryman already registered.' })
   @ApiBadRequestResponse({ description: 'Invalid document.' })

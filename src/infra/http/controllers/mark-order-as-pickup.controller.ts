@@ -5,7 +5,7 @@ import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { Roles } from '@/infra/auth/roles.decorator'
 import { BadRequestException, Controller, Param, Put } from '@nestjs/common'
 
-@Controller('/orders/:orderId')
+@Controller('/orders/:orderId/pickup')
 @Roles(['ADMINISTRATOR'])
 export class MarkOrderAsPickupController {
   constructor(private markOrderAsPickup: MarkOrderAsPickupUseCase) {}

@@ -17,6 +17,7 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiBody,
+  ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
 
@@ -47,6 +48,7 @@ export class EditDeliverymanController {
   @HttpCode(200)
 
   // Swagger Documentation
+  @ApiTags('Fast Feet')
   @ApiBody({ type: EditDeliverymanBody })
   @ApiUnauthorizedResponse()
   @ApiBadRequestResponse({ description: 'Resource not found.' })

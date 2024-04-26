@@ -20,6 +20,7 @@ import {
   ApiUnauthorizedResponse,
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiTags,
 } from '@nestjs/swagger'
 
 const editRecipientBodySchema = z.object({
@@ -48,6 +49,7 @@ export class EditRecipientController {
   @HttpCode(200)
 
   // Swagger Documentation
+  @ApiTags('Fast Feet')
   @ApiBody({ type: RecipientBody })
   @ApiUnauthorizedResponse()
   @ApiBadRequestResponse({ description: 'Resource not found.' })

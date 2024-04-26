@@ -10,7 +10,12 @@ import {
   HttpCode,
   Post,
 } from '@nestjs/common'
-import { ApiBadRequestResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger'
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiTags,
+} from '@nestjs/swagger'
 import { z } from 'zod'
 import { RecipientBody } from './doc/swagger/recipient'
 
@@ -43,6 +48,7 @@ export class CreateRecipientAndOrder {
   @HttpCode(201)
 
   // Swagger Documentation
+  @ApiTags('Fast Feet')
   @ApiBody({ type: RecipientBody })
   @ApiBadRequestResponse({ description: 'Invalid document.' })
   @ApiBearerAuth()
