@@ -5,7 +5,6 @@ import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
 import { RegisterDeliverymanController } from './controllers/register-deliveryman.controller'
 import { RegisterDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/register-deliveryman'
-import { AuthenticateController } from './controllers/authenticate.controller'
 import { AuthenticateDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/authenticate-deliveryman'
 import { AuthenticateAdministratorController } from './controllers/authenticate-administrator.controller'
 import { AuthenticateAdministratorUseCase } from '@/domain/shipping-company/application/use-cases/authenticate-administrator'
@@ -37,6 +36,7 @@ import { MarkOrderAsDeliveredController } from './controllers/mark-order-as-deli
 import { MarkOrderAsDeliveredUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-delivered'
 import { MarkOrderAsReturnedController } from './controllers/mark-order-as-returned.controller'
 import { MarkOrderAsReturnedUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-returned'
+import { AuthenticateController } from './controllers/authenticate.controller'
 
 @Module({
   imports: [CryptographyModule, DatabaseModule, StorageModule],

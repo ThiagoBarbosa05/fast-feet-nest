@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import swc from 'unplugin-swc'
 import { configDefaults, defineConfig } from 'vitest/config'
 import tsConfigPaths from 'vite-tsconfig-paths'

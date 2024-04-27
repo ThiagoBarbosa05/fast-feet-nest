@@ -4,6 +4,7 @@ import {
   Body,
   Controller,
   Post,
+  Res,
   UnauthorizedException,
   UsePipes,
 } from '@nestjs/common'
@@ -22,6 +23,7 @@ import {
   AuthenticateBody,
   AuthenticateResponse,
 } from './doc/swagger/authenticate'
+import { Response } from 'express'
 
 const authenticateBodySchema = z.object({
   document: z.string(),
@@ -49,7 +51,10 @@ export class AuthenticateController {
   @ApiUnauthorizedResponse({ description: 'Wrong credentials.' })
   @ApiBadRequestResponse({ description: 'Bad request.' })
   // Swagger Documentation
-  async handle(@Body() body: AuthenticateBodySchema) {
+  async handle(
+    @Body() body: AuthenticateBodySchema,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const { document, password } = body
 
     const result = await this.authenticateDeliveryman.execute({
@@ -69,6 +74,11 @@ export class AuthenticateController {
     }
 
     const { accessToken } = result.value
+
+    response.cookie('access_token', accessToken, {
+      httpOnly: true,
+      sameSite: 'strict',
+    })
 
     return {
       access_token: accessToken,

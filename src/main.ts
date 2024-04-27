@@ -3,9 +3,12 @@ import { AppModule } from './app.module'
 import { ConfigService } from '@nestjs/config'
 import { Env } from './infra/env/env'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import * as cookieParser from 'cookie-parser'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule, { cors: true })
+
+  app.use(cookieParser())
 
   const config = new DocumentBuilder()
     .setTitle('Fast Feet API')
