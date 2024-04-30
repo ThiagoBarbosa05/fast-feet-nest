@@ -4,17 +4,20 @@ import { makeRecipient } from 'test/factories/make-recipient'
 import { makeOrder } from 'test/factories/make-order'
 import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { InMemoryOrderAttachmentsRepository } from 'test/repositories/in-memory-order-attachments'
 
 let inMemoryRecipientRepository: InMemoryRecipientRepository
-
+let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentsRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
 let sut: GetOrderByRecipientIdUseCase
 
 describe('Fetch orders by recipient id', () => {
   beforeEach(() => {
+    inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentsRepository()
     inMemoryRecipientRepository = new InMemoryRecipientRepository()
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryRecipientRepository,
+      inMemoryOrderAttachmentRepository,
     )
     inMemoryRecipientRepository = new InMemoryRecipientRepository()
     sut = new GetOrderByRecipientIdUseCase(inMemoryOrderRepository)

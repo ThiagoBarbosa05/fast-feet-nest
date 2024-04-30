@@ -8,6 +8,7 @@ import { InMemoryRecipientRepository } from './in-memory-recipient'
 import { AddressService } from '@/domain/shipping-company/application/services/address-service'
 import { DomainEvents } from '@/core/events/domain-events'
 import { OrderAttachmentsRepository } from '@/domain/shipping-company/application/repositories/order-attachments'
+import { OrderDetails } from '@/domain/shipping-company/enterprise/entities/value-objects.ts/order-details'
 
 export class InMemoryOrderRepository implements OrderRepository {
   public items: Order[] = []
@@ -54,6 +55,27 @@ export class InMemoryOrderRepository implements OrderRepository {
     if (!order) return null
 
     return order
+  }
+
+  async findOrderDetailsById(orderId: string) {
+    const order = this.items.find((item) => item.id.toString() === orderId)
+
+    if (!order) return null
+
+    const recipientOrder = this.recipientRepository.items.find(
+      (item) => item.id.toString() === order.recipientId.toString(),
+    )
+
+    if (!recipientOrder) return null
+
+    return OrderDetails.create({
+      orderId: order.id,
+      recipientId: recipientOrder.id,
+      deliveryStatus: order.deliveryStatus,
+      recipientName: recipientOrder.name,
+      address: recipientOrder.address,
+      createdAt: order.createdAt,
+    })
   }
 
   async save(order: Order) {

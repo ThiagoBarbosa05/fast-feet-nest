@@ -77,6 +77,7 @@ model Order {
   recipient      Recipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
 
   attachments Attachment[]
+
   @@map("orders")
 }
 
@@ -93,11 +94,11 @@ model Notification {
 }
 
 model Attachment {
-  id String @id @default(uuid())
-  title String
-  url String
+  id      String  @id @default(uuid())
+  title   String
+  url     String
   orderId String? @map("order_id")
-  order Order? @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order   Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   @@map("attachments")
 }

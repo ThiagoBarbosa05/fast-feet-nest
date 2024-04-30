@@ -10,15 +10,18 @@ import { DomainEvents } from '@/core/events/domain-events'
 import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
 import { Order as PrismaOrder } from '@prisma/client'
 import { OrderAttachmentsRepository } from '@/domain/shipping-company/application/repositories/order-attachments'
+import { PrismaOrderDetailsMapper } from '../mappers/prisma-order-details-mapper'
+import { CacheRepository } from '@/infra/cache/cache-repository'
 
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {
   constructor(
     private prisma: PrismaService,
+    private cache: CacheRepository,
     private orderAttachmentsRepository: OrderAttachmentsRepository,
   ) {}
 
-  async create(order: Order): Promise<void> {
+  async create(order: Order) {
     const data = PrismaOrderMapper.toPrisma(order)
 
     await this.prisma.order.create({
@@ -53,6 +56,36 @@ export class PrismaOrderRepository implements OrderRepository {
     return PrismaOrderMapper.toDomain(order)
   }
 
+  async findOrderDetailsById(orderId: string) {
+    const cacheHit = await this.cache.get(`order:${orderId}:details`)
+
+    if (cacheHit) {
+      return JSON.parse(cacheHit)
+    }
+
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id: orderId,
+      },
+      include: {
+        recipient: {
+          include: {
+            address: true,
+          },
+        },
+      },
+    })
+
+    const orderDetails = PrismaOrderDetailsMapper.toDomain(order)
+
+    await this.cache.set(
+      `order:${orderId}:details`,
+      JSON.stringify(orderDetails),
+    )
+
+    return orderDetails
+  }
+
   async save(order: Order) {
     const data = PrismaOrderMapper.toPrisma(order)
 
@@ -70,6 +103,8 @@ export class PrismaOrderRepository implements OrderRepository {
       this.orderAttachmentsRepository.deleteMany(
         order.attachments.getRemovedItems(),
       ),
+
+      this.cache.delete(`order:${data.id}:details`),
     ])
 
     DomainEvents.dispatchEventsForAggregate(order.id)

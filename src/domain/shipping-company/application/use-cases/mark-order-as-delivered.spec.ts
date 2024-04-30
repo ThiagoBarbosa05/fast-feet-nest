@@ -4,7 +4,7 @@ import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipie
 import { makeOrder } from 'test/factories/make-order'
 import { UniqueEntityID } from '@/core/entities/uniques-entity-id'
 import { NotAllowedError } from './errors/not-allowed-error'
-import { InMemoryOrderAttachmentsRepository } from 'test/repositories/in-memory-order-attchments'
+import { InMemoryOrderAttachmentsRepository } from 'test/repositories/in-memory-order-attachments'
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryRecipientRepository: InMemoryRecipientRepository

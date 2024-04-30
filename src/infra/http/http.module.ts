@@ -23,7 +23,7 @@ import { FetchDeliverymanController } from './controllers/fetch-deliveryman.cont
 import { FetchDeliverymanUseCase } from '@/domain/shipping-company/application/use-cases/fetch-deliveryman'
 import { FetchOrdersByDeliverymanIdController } from './controllers/fetch-orders-by-deliveryman-id.controller'
 import { FetchOrdersByDeliverymanIdUseCase } from '@/domain/shipping-company/application/use-cases/fetch-orders-by-deliveryman-id'
-import { GetOrderByRecipientIdController } from './controllers/get-order-by-delivery-id.controller'
+import { GetOrderByRecipientIdController } from './controllers/get-order-by-recipient-id.controller'
 import { GetOrderByRecipientIdUseCase } from '@/domain/shipping-company/application/use-cases/get-order-by-recipient-id'
 import { ListOrderNearDeliverymanAddressController } from './controllers/list-order-near-deliveryman-address.controller'
 import { ListOrderNearDeliverymanAddressUseCase } from '@/domain/shipping-company/application/use-cases/list-order-near-deliveryman-address'
@@ -37,6 +37,8 @@ import { MarkOrderAsDeliveredUseCase } from '@/domain/shipping-company/applicati
 import { MarkOrderAsReturnedController } from './controllers/mark-order-as-returned.controller'
 import { MarkOrderAsReturnedUseCase } from '@/domain/shipping-company/application/use-cases/mark-order-as-returned'
 import { AuthenticateController } from './controllers/authenticate.controller'
+import { GetOrderByIdController } from './controllers/get-order-by-id.controller'
+import { GetOrderByIdUseCase } from '@/domain/shipping-company/application/use-cases/get-order-by-id'
 
 @Module({
   imports: [CryptographyModule, DatabaseModule, StorageModule],
@@ -58,6 +60,7 @@ import { AuthenticateController } from './controllers/authenticate.controller'
     UploadAttachmentController,
     MarkOrderAsReturnedController,
     MarkOrderAsDeliveredController,
+    GetOrderByIdController,
   ],
   providers: [
     RegisterAdministratorUseCase,
@@ -78,6 +81,7 @@ import { AuthenticateController } from './controllers/authenticate.controller'
     MarkOrderAsDeliveredUseCase,
     MarkOrderAsReturnedUseCase,
     AuthenticateDeliverymanUseCase,
+    GetOrderByIdUseCase,
   ],
 })
 export class HttpModule {}

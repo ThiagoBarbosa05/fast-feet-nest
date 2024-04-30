@@ -14,8 +14,10 @@ import { AttachmentsRepository } from '@/domain/shipping-company/application/rep
 import { PrismaAttachmentRepository } from './prisma/repositories/prisma-attachment-repository'
 import { OrderAttachmentsRepository } from '@/domain/shipping-company/application/repositories/order-attachments'
 import { PrismaOrderAttachmentsRepository } from './prisma/repositories/prisma-order-attachment-repository'
+import { CacheModule } from '../cache/cache.module'
 
 @Module({
+  imports: [CacheModule],
   providers: [
     PrismaService,
     {

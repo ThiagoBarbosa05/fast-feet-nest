@@ -1,5 +1,5 @@
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order'
-import { InMemoryOrderAttachmentsRepository } from 'test/repositories/in-memory-order-attchments'
+import { InMemoryOrderAttachmentsRepository } from 'test/repositories/in-memory-order-attachments'
 import { EditOrderUseCase } from './edit-order'
 import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient'
 import { makeOrder } from 'test/factories/make-order'

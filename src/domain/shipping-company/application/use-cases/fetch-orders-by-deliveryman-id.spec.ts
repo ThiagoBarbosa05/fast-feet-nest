@@ -4,18 +4,22 @@ import { InMemoryDeliverymanRepository } from 'test/repositories/in-memory-deliv
 import { makeDeliveryman } from 'test/factories/make-deliveryman'
 import { makeOrder } from 'test/factories/make-order'
 import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient'
+import { InMemoryOrderAttachmentsRepository } from 'test/repositories/in-memory-order-attachments'
 
 let inMemoryRecipientRepository: InMemoryRecipientRepository
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryDeliverymanRepository: InMemoryDeliverymanRepository
+let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentsRepository
 let sut: FetchOrdersByDeliverymanIdUseCase
 
 describe('Fetch orders by deliveryman id', () => {
   beforeEach(() => {
     inMemoryRecipientRepository = new InMemoryRecipientRepository()
+    inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentsRepository()
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryRecipientRepository,
+      inMemoryOrderAttachmentRepository,
     )
     inMemoryDeliverymanRepository = new InMemoryDeliverymanRepository()
     sut = new FetchOrdersByDeliverymanIdUseCase(inMemoryOrderRepository)
