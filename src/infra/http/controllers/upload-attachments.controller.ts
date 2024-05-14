@@ -25,7 +25,7 @@ import {
 import { AttachmentData, AttachmentResponse } from './doc/swagger/attachments'
 
 @Controller('/attachments')
-@Roles(['DELIVERYMAN'])
+@Roles(['DELIVERYMAN', 'DELIVERYMAN'])
 export class UploadAttachmentController {
   constructor(
     private uploadAndCreateAttachment: UploadAndCreateAttachmentUseCase,

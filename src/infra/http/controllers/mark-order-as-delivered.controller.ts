@@ -42,7 +42,7 @@ export class MarkOrderAsDeliveredController {
   @Put()
   @HttpCode(201)
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Deliveryman')
   @ApiBody({ type: [AttachmentIdBody] })
   @ApiBadRequestResponse()
   @ApiUnauthorizedResponse()

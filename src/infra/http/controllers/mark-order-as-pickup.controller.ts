@@ -18,7 +18,7 @@ export class MarkOrderAsPickupController {
 
   @Put()
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Deliveryman')
   @ApiBadRequestResponse()
   @ApiUnauthorizedResponse()
   @ApiBearerAuth()

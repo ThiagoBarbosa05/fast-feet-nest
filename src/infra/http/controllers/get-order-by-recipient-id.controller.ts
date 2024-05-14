@@ -24,7 +24,7 @@ export class GetOrderByRecipientIdController {
 
   @Get()
   @HttpCode(200)
-  @ApiTags('Fast Feet')
+  @ApiTags('Admin')
   @ApiBody({ type: OrderResponseBody })
   @ApiUnauthorizedResponse()
   @ApiBearerAuth()

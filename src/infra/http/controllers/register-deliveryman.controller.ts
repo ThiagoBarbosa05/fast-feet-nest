@@ -52,7 +52,7 @@ export class RegisterDeliverymanController {
   @UsePipes(new ZodValidationPipe(registrationDeliverymanBodySchema))
 
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Admin')
   @ApiBody({ type: DeliverymanBody })
   @ApiConflictResponse({ description: 'Deliveryman already registered.' })
   @ApiBadRequestResponse({ description: 'Invalid document.' })

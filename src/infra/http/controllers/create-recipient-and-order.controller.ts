@@ -48,7 +48,7 @@ export class CreateRecipientAndOrder {
   @HttpCode(201)
 
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Admin')
   @ApiBody({ type: RecipientBody })
   @ApiBadRequestResponse({ description: 'Invalid document.' })
   @ApiBearerAuth()

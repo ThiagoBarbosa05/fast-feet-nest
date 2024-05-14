@@ -41,7 +41,7 @@ export class RegisterAdministratorController {
   @UsePipes(new ZodValidationPipe(registerAdministratorBodySchema))
 
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Deliveryman')
   @ApiBody({ type: AdministratorBody })
   @ApiConflictResponse({ description: 'Administrator already registered.' })
   @ApiBadRequestResponse({ description: 'Invalid document.' })

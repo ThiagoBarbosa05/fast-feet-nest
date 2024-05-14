@@ -24,7 +24,7 @@ export class DeleteDeliverymanController {
   @HttpCode(200)
 
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Admin')
   @ApiUnauthorizedResponse()
   @ApiBadRequestResponse({ description: 'Resource not found.' })
   @ApiBearerAuth()

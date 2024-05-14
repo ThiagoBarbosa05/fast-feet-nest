@@ -48,7 +48,7 @@ export class EditDeliverymanController {
   @HttpCode(200)
 
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Admin')
   @ApiBody({ type: EditDeliverymanBody })
   @ApiUnauthorizedResponse()
   @ApiBadRequestResponse({ description: 'Resource not found.' })

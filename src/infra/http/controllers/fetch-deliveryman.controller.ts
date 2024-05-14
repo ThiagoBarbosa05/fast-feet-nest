@@ -31,7 +31,7 @@ export class FetchDeliverymanController {
   @Get()
 
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Admin')
   @ApiBody({ type: [DeliverymanResponseBody] })
   @ApiUnauthorizedResponse()
   @ApiBearerAuth()

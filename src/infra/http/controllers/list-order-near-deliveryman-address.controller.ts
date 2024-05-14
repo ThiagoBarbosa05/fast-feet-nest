@@ -24,7 +24,7 @@ export class ListOrderNearDeliverymanAddressController {
   @HttpCode(200)
 
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Deliveryman')
   @ApiBody({ type: [OrderResponseBody] })
   @ApiUnauthorizedResponse()
   @ApiBearerAuth()

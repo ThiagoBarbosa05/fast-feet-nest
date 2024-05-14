@@ -49,7 +49,7 @@ export class EditRecipientController {
   @HttpCode(200)
 
   // Swagger Documentation
-  @ApiTags('Fast Feet')
+  @ApiTags('Admin')
   @ApiBody({ type: RecipientBody })
   @ApiUnauthorizedResponse()
   @ApiBadRequestResponse({ description: 'Resource not found.' })
